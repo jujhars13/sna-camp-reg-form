@@ -1,103 +1,165 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
-    <title>Khalsa Ghar • Kitchen Dashboard</title>
-    <meta name="description" content="A pure HTML example, without dependencies." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="/static/css/pico.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
 
-    <!-- Pico.css -->
-    <link rel="stylesheet" href="/static/css/pico.min.css" />
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .field-group {
+      margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #1f8dd6;
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="container">
-        <hgroup>
-            <h1>Kitchen Dashboard</h1>
-            <div id="clock">
-                <h5 id="date-time"></h5>
-            </div>
-        </hgroup>
 
-    </header>
-    <!-- ./ Header -->
+  <h1>SNA Camp Registration Form</h1>
 
-    <!-- Main -->
-    <main class="container">
-        <section id="primary-section">
-        </section>
-    </main>
+  <form id="registrationForm">
+    <input type="hidden" name="campName" value="stratford-road-2024" />
+    <div class="field-group">
+      <label for="firstname">Firstname*</label>
+      <input id="firstname" name="firstname" type="text" placeholder="Firstname" required/>
+    </div>
 
+    <div class="field-group">
+      <label for="surname">Surname*</label>
+      <input id="surname" name="surname" type="text" placeholder="Surname" />
+    </div>
+
+    <div class="field-group">
+      <label for="otherNames">Other Names</label>
+      <input id="otherNames" name="otherNames" type="text" placeholder="Any other names?"/>
+    </div>
+
+    <div class="field-group">
+      <label for="gender">Gender*</label>
+      <select id="gender" name="gender" required>
+        <option value="">Select</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label for="dob">Date of Birth*</label>
+      <input id="dob" name="dob" type="date" required />
+    </div>
+
+    <div class="field-group">
+      <label for="addressLine1">Address Line 1*</label>
+      <input id="addressLine1" name="addressLine1" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="addressLine2">Address Line 2</label>
+      <input id="addressLine2" name="addressLine2" type="text" />
+    </div>
+
+    <div class="field-group">
+      <label for="city">City*</label>
+      <input id="city" name="city" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="postcode">Postcode*</label>
+      <input id="postcode" name="postcode" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="guardianName">Guardian's Name*</label>
+      <input id="guardianName" name="guardianName" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="guardianNumber">Guardian's Number*</label>
+      <input id="guardianNumber" name="guardianNumber" type="tel" required />
+    </div>
+
+    <div class="field-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" />
+    </div>
+
+    <div class="field-group">
+      <label for="allergies">Any Allergies? (empty if none)</label>
+      <input id="allergies" name="allergies" type="text" placeholder="Detail any allergies the child may have, otherwise leave empty"/>
+    </div>
+
+    <div class="field-group">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes" placeholder="Anything else you need to tell us?"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label for="yearAttendedBefore">Attended Before?</label>
+      <input id="yearAttendedBefore" name="yearAttendedBefore" type="number" placeholder="Have they been to any SNA camps before?" />
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+
+    document.getElementById('registrationForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const dob = document.getElementById('dob').value;
+      const yearAttendedBefore = document.getElementById('yearAttendedBefore').value;
+
+      if (yearAttendedBefore && (yearAttendedBefore < 1900 || yearAttendedBefore > new Date().getFullYear())) {
+        alert('Please enter a valid year for "Year Attended Before".');
+        return;
+      }
+
+      if (new Date(dob) > new Date()) {
+        alert('Please enter a valid date of birth.');
+        return;
+      }
+
+      const formData = new FormData(this);
+      const jsonData = Object.fromEntries(formData.entries());
+
+      fetch(config.serverUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonData)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          alert('Form submitted successfully!');
+          console.log('Success:', data);
+        })
+        .catch(error => {
+          alert('There was a problem with your submission: ' + error.message);
+          console.error('Error:', error);
+        });
+    });
+
+  </script>
 </body>
 
 </html>
-
-<script type="text/javascript">
-
-    // reload page automatically every 30 seconds
-    setTimeout(() => {
-        location.reload();
-    }, 1000 * 60);
-
-    window.addEventListener("load", () => {
-        clock();
-    });
-
-    function clock() {
-        const today = new Date();
-
-        // get time components
-        const hours = today.getHours();
-        const minutes = today.getMinutes();
-        const seconds = today.getSeconds();
-
-        //add '0' to hour, minute & second when they are less 10
-        const hour = hours < 10 ? "0" + hours : hours;
-        const minute = minutes < 10 ? "0" + minutes : minutes;
-        const second = seconds < 10 ? "0" + seconds : seconds;
-
-        //make clock a 12-hour time clock
-        const hourTime = hour > 12 ? hour - 12 : hour;
-
-        // if (hour === 0) {
-        //   hour = 12;
-        // }
-        //assigning 'am' or 'pm' to indicate time of the day
-        const ampm = hour < 12 ? "AM" : "PM";
-
-        // get date components
-        const month = today.getMonth();
-        const year = today.getFullYear();
-        const day = today.getDate();
-
-        //declaring a list of all months in  a year
-        const monthList = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ];
-
-        //get current date and time
-        const date = monthList[month] + " " + day + ", " + year;
-        const time = hourTime + ":" + minute + ":" + second + ampm;
-
-        //combine current date and time
-        const dateTime = date + " - " + time;
-
-        // print current date and time to the DOM
-        document.getElementById("date-time").innerHTML = dateTime;
-        setTimeout(clock, 1000);
-    }
-</script>

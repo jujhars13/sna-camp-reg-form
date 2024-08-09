@@ -1,3 +1,4 @@
+import { fa } from "@faker-js/faker";
 import { defineConfig } from "@rsbuild/core";
 
 export default {
@@ -5,12 +6,12 @@ export default {
     port: 3001
   },
   html: {
-    title: "Kitchen dashboard",
-    template: "./src/index.html"
+    title: "SNA Camp Registration",
+    template: "./src/index.html",
+    favicon: "./src/favicon.ico"
   },
   output: {
     copy: [
-      { from: "./src/favicon.ico", to: "" },
       { from: "./src/css", to: "static/css" },
       { from: "./src/images", to: "static/images" }
     ]

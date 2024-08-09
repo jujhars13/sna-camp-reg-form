@@ -2,19 +2,26 @@
   "name": "kitchen-dashboard",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "rsbuild build",
     "dev": "rsbuild dev --open",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "preview": "rsbuild preview"
+    "preview": "rsbuild preview",
+    "test": "mocha src/**/*.test.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
+    "@faker-js/faker": "^8.4.1",
     "@rsbuild/core": "^1.0.0-alpha.7",
+    "@types/selenium-webdriver": "^4.1.24",
+    "chromedriver": "^127.0.2",
     "eslint": "^9.6.0",
     "globals": "^15.8.0",
+    "mocha": "^10.7.3",
     "prettier": "^3.3.2",
+    "selenium-webdriver": "^4.23.0",
     "typescript": "^5.5.2"
   },
   "dependencies": {
