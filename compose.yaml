@@ -1,0 +1,42 @@
+networks:
+  internal:
+    internal: true
+
+services:
+
+  caddy:
+    image: docker pull ghcr.io/iarekylew00t/caddy-cloudflare:latest
+    container_name: caddy_snacamp_form
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./caddy/caddyData:/data
+      - ./caddy/caddyConfig:/config
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+    links:
+      - client
+x    environment:
+      CF_ZONE_JUJHAR_COM_TOKEN: "${CF_ZONE_JUJHAR_COM_TOKEN}"
+      CF_API_TOKEN: "${CF_API_TOKEN}"
+    labels:
+      com.centurylinklabs.watchtower.enable: true
+      com.jujhar.project: "sna-camp-reg-form"
+    networks:
+      - default
+      - internal
+
+
+  client:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    expose:
+      - "80/tcp"
+    restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: true
+      com.jujhar.project: "sna-camp-reg-form"
+    networks:
+      - internal

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Friendly Registration Form</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .pure-form fieldset {
+            border: none;
+            padding: 10px 0;
+        }
+        .pure-form legend {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .pure-form .pure-button-primary {
+            background-color: #1f8dd6;
+        }
+        @media (max-width: 600px) {
+            .pure-control-group label {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .pure-control-group input,
+            .pure-control-group select,
+            .pure-control-group textarea {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Registration Form</h1>
+    <form class="pure-form pure-form-stacked" id="registrationForm" action="http://localhost:8080/snacamp" method="POST">
+        <fieldset>
+            <legend>Personal Information</legend>
+
+            <div class="pure-control-group">
+                <label for="firstname">Firstname:</label>
+                <input id="firstname" name="firstname" type="text" placeholder="First Name" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="surname">Surname:</label>
+                <input id="surname" name="surname" type="text" placeholder="Surname" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="otherNames">Other Names:</label>
+                <input id="otherNames" name="otherNames" type="text" placeholder="Other Names" />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="dob">DOB:</label>
+                <input id="dob" name="dob" type="date" placeholder="yyyy-mm-dd" required />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Address Information</legend>
+
+            <div class="pure-control-group">
+                <label for="addressLine1">Address Line 1:</label>
+                <input id="addressLine1" name="addressLine1" type="text" placeholder="Address Line 1" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="addressLine2">Address Line 2:</label>
+                <input id="addressLine2" name="addressLine2" type="text" placeholder="Address Line 2" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="city">City:</label>
+                <input id="city" name="city" type="text" placeholder="City" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="postcode">Postcode:</label>
+                <input id="postcode" name="postcode" type="text" placeholder="Postcode" required />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Guardian Information</legend>
+
+            <div class="pure-control-group">
+                <label for="guardiansName">Guardian's Name:</label>
+                <input id="guardiansName" name="guardiansName" type="text" placeholder="Guardian's Name" required />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="guardiansNumber">Guardian's Number:</label>
+                <input id="guardiansNumber" name="guardiansNumber" type="text" placeholder="Guardian's Phone Number" required pattern="\d+" />
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Additional Information</legend>
+
+            <div class="pure-control-group">
+                <label for="email">Email:</label>
+                <input id="email" name="email" type="email" placeholder="Email Address" />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="allergies">Any Allergies:</label>
+                <input id="allergies" name="allergies" type="text" placeholder="Allergies" />
+            </div>
+
+            <div class="pure-control-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Additional Notes"></textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="yearAttendedBefore">Year Attended Before:</label>
+                <input id="yearAttendedBefore" name="yearAttendedBefore" type="number" placeholder="Year Attended" />
+            </div>
+        </fieldset>
+
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            const dob = document.getElementById('dob').value;
+            const yearAttendedBefore = document.getElementById('yearAttendedBefore').value;
+
+            if (yearAttendedBefore && (yearAttendedBefore < 1900 || yearAttendedBefore > new Date().getFullYear())) {
+                alert('Please enter a valid year for "Year Attended Before".');
+                event.preventDefault();
+            }
+
+            if (new Date(dob) > new Date()) {
+                alert('Please enter a valid date of birth.');
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
+
