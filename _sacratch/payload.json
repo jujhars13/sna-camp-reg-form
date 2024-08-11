@@ -1,0 +1,19 @@
+{
+  "campName": "stratford-road-2024",
+  "firstname": "Felix",
+  "surname": "Johnson",
+  "otherNames": "Jacinthe",
+  "gender": "M",
+  "dob": "2024-08-01",
+  "addressLine1": "9 Woodland Road",
+  "addressLine2": "Suite 721",
+  "city": "Larson Heath",
+  "postcode": "ER3 5LL",
+  "guardianName": "Dr. Flora Kunde",
+  "guardianNumber": "0800 638592",
+  "email": "Katharina32@gmail.com",
+  "allergies": "vulnus substantia sollicito",
+  "notes": "Thermae deludo vergo conforto celer antea certus amissio.",
+  "yearAttendedBefore": "2024",
+  "environment": "development"
+}
