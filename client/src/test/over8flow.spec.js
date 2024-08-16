@@ -3,6 +3,7 @@ const { Builder, By, Key, until } = require("selenium-webdriver");
 const assert = require("assert");
 const { faker } = require("@faker-js/faker");
 faker.setLocale("en_GB");
+const { describe } = require("mocha");
 
 describe(">16 flow", function () {
   this.timeout(30000);

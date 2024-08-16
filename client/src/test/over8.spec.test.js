@@ -1,4 +1,5 @@
 const { Builder, By, until } = require("selenium-webdriver");
+const require = require("require");
 const { fakerEN_GB } = require("@faker-js/faker");
 const assert = require("assert");
 

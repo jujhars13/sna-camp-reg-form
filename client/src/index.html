@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Form</title>
-  <link rel="stylesheet" href="/static/css/pico.min.css">
+  <link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/index.css">
   <style>
     body {
       padding: 20px;
@@ -32,10 +33,9 @@
   <h1>SNA Camp Registration Form</h1>
 
   <form id="registrationForm">
-    <input type="hidden" name="campName" value="stratford-road-2024" />
     <div class="field-group">
       <label for="firstname">Firstname*</label>
-      <input id="firstname" name="firstname" type="text" placeholder="Firstname" required/>
+      <input id="firstname" name="firstname" type="text" placeholder="Firstname" required />
     </div>
 
     <div class="field-group">
@@ -45,7 +45,7 @@
 
     <div class="field-group">
       <label for="otherNames">Other Names</label>
-      <input id="otherNames" name="otherNames" type="text" placeholder="Any other names?"/>
+      <input id="otherNames" name="otherNames" type="text" placeholder="Any other names?" />
     </div>
 
     <div class="field-group">
@@ -99,7 +99,8 @@
 
     <div class="field-group">
       <label for="allergies">Any Allergies? (empty if none)</label>
-      <input id="allergies" name="allergies" type="text" placeholder="Detail any allergies the child may have, otherwise leave empty"/>
+      <input id="allergies" name="allergies" type="text"
+        placeholder="Detail any allergies the child may have, otherwise leave empty" />
     </div>
 
     <div class="field-group">
@@ -109,57 +110,16 @@
 
     <div class="field-group">
       <label for="yearAttendedBefore">Attended Before?</label>
-      <input id="yearAttendedBefore" name="yearAttendedBefore" type="number" placeholder="Have they been to any SNA camps before?" />
+      <input id="yearAttendedBefore" name="yearAttendedBefore" type="number"
+        placeholder="Have they been to any SNA camps before?" />
     </div>
 
     <button type="submit">Submit</button>
+    <input type="hidden" name="campName" value="stratford-road-2024" />
+    <input type="hidden" id="environment" name="environment" value="unknown" />
+
   </form>
 
-  <script>
-
-    document.getElementById('registrationForm').addEventListener('submit', function (event) {
-      event.preventDefault();
-
-      const dob = document.getElementById('dob').value;
-      const yearAttendedBefore = document.getElementById('yearAttendedBefore').value;
-
-      if (yearAttendedBefore && (yearAttendedBefore < 1900 || yearAttendedBefore > new Date().getFullYear())) {
-        alert('Please enter a valid year for "Year Attended Before".');
-        return;
-      }
-
-      if (new Date(dob) > new Date()) {
-        alert('Please enter a valid date of birth.');
-        return;
-      }
-
-      const formData = new FormData(this);
-      const jsonData = Object.fromEntries(formData.entries());
-
-      fetch(config.serverUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(jsonData)
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          alert('Form submitted successfully!');
-          console.log('Success:', data);
-        })
-        .catch(error => {
-          alert('There was a problem with your submission: ' + error.message);
-          console.error('Error:', error);
-        });
-    });
-
-  </script>
 </body>
 
 </html>

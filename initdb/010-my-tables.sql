@@ -24,6 +24,7 @@ CREATE TABLE snaCamp (
     email VARCHAR(255),
     allergies TEXT,
     notes TEXT,
+    tshirtsize VARCHAR(10) NOT NULL,
     yearAttendedBefore INTEGER CHECK (yearAttendedBefore >= 1900 AND yearAttendedBefore <= EXTRACT(YEAR FROM CURRENT_DATE))
 );
 

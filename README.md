@@ -2,6 +2,8 @@
 
 A registration for for SNA camps
 
+Web client -> supabase database
+
 
 ## Testing with Selenium
 
