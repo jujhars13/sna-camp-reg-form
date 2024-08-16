@@ -44,6 +44,7 @@ document
     const jsonFormData = Object.fromEntries(formData.entries());
 
     const supabase = createClient(supabaseUrl, supabaseKey);
+    console.log({ supabaseUrl, supabaseKey });
     supabase
       .from("snacamp")
       .insert([jsonFormData])
