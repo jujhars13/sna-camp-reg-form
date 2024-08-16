@@ -3,7 +3,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
-const { webpack } = require("webpack");
+const { webpack, DefinePlugin } = require("webpack");
 
 const environment = process.env?.NODE_ENV
   ? process.env.NODE_ENV
@@ -30,7 +30,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist")
   },
   plugins: [
-    new webpack.DefinePlugin({
+    new DefinePlugin({
       SUPABASE_URL: supabaseUrl,
       SUPABASE_KEY: supabaseKey,
       ENVIRONMENT: environment
