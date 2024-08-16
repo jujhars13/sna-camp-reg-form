@@ -50,9 +50,9 @@ jobs:
         working-directory: ./client
         env:
           # For maximum backward compatibility with Hugo modules
-          NODE_ENV: "production"
-          SUPABASE_URL: "https://lighsugaslqwzynyhnzl.supabase.co"
-          SUPABASE_ANON_KEY: "${{ secrets.SUPABASE_ANON_KEY }}"
+          NODE_ENV: production
+          SUPABASE_URL: https://lighsugaslqwzynyhnzl.supabase.co
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           touch .env
           npm run build

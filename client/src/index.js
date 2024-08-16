@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
-  environmentInput.value = ENVIRONMENT;
+  environmentInput.value = __environment;
 }
 
 /**
@@ -34,7 +34,7 @@ document
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
 
-    const supabase = createClient(SUPABASEURL, SUPABASEKEY);
+    const supabase = createClient(__supabase_url, __supabase_key);
     supabase
       .from("snacamp")
       .insert([jsonFormData])
