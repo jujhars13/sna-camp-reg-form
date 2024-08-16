@@ -1,4 +1,12 @@
+import { createClient } from '@supabase/supabase-js'
 const environment = process.env?.NODE_ENV ? process.env.NODE_ENV : "development";
+const supabaseUrl = 'https://lighsugaslqwzynyhnzl.supabase.co'
+const supabaseKey = process.env?.SUPABASE_KEY ? process.env.SUPABASE_KEY : undefined;
+
+if (!supabaseKey){
+  console.error('No database key found');
+}
+
 
 const config = {
   serverUrl: "http://localhost:8080/server/snaCamp"
@@ -21,6 +29,9 @@ const aloo = {
 console.log(aloo.gobi());
 document.getElementById('registrationForm').addEventListener('submit', function (event) {
   event.preventDefault();
+
+  const supabase = createClient(supabaseUrl, supabaseKey)
+
 
   const dob = document.getElementById('dob').value;
   const yearAttendedBefore = document.getElementById('yearAttendedBefore').value;

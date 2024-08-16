@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production node_modules/.bin/webpack build",
     "watch": "NODE_ENV=development node_modules/.bin/webpack --watch",
     "lint": "eslint src",
-    "start": "webpack serve"
+    "dev": "webpack serve"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

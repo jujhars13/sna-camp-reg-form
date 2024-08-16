@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
 
-
 module.exports = {
   entry: "./src/index.js",
   //mode: 'production',
