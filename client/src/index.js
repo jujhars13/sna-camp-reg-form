@@ -5,8 +5,8 @@ const environment = process.env?.NODE_ENV
 const supabaseUrl = process.env?.SUPABASE_URL
   ? process.env.SUPABASE_URL
   : undefined;
-const supabaseKey = process.env?.SUPABASE_KEY
-  ? process.env.SUPABASE_KEY
+const supabaseKey = process.env?.SUPABASE_ANON_KEY
+  ? process.env.SUPABASE_ANON_KEY
   : undefined;
 
 const config = {
@@ -27,6 +27,7 @@ document
     event.preventDefault();
 
     const supabase = createClient(supabaseUrl, supabaseKey);
+    console.log('Supabase Instance: ', supabase)
 
     const dob = document.getElementById("dob").value;
     const yearAttendedBefore =
@@ -55,7 +56,6 @@ document
     //   { some_column: 'someValue', other_column: 'otherValue' },
     // ])
     // .select()
-
     supabase
       .from("snacamp")
       .insert([jsonFormData])
@@ -72,6 +72,6 @@ document
       })
       .catch((error) => {
         alert("There was a problem with your submission: " + error.message);
-        console.error("Error:", error);
+        console.error("Error:", {error});
       });
   });

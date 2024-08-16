@@ -1,15 +1,13 @@
 const { Builder, By, until } = require("selenium-webdriver");
-const require = require("require");
 const { fakerEN_GB } = require("@faker-js/faker");
-const assert = require("assert");
-
 
 (async function runTest() {
   // Initialize WebDriver and navigate to the form page
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
-    await driver.get("http://localhost:3001/");
+    await driver.get("http://localhost:8080/");
+   // await driver.get("https://snaform.com/");
 
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();
@@ -46,6 +44,7 @@ const assert = require("assert");
     await driver.findElement(By.id("guardianName")).sendKeys(guardianName);
     await driver.findElement(By.id("guardianNumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
+    await driver.findElement(By.id("tshirtsize")).sendKeys('XL');
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
     await driver.findElement(By.id("notes")).sendKeys(`testing: ${notes}`);
     await driver

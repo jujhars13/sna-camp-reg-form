@@ -14,7 +14,7 @@ const supabaseUrl = process.env?.SUPABASE_URL
   ? process.env.SUPABASE_URL
   : undefined;
 
-console.dir({ environment, supabaseKey, supabaseUrl });
+console.dir({ environment, supabaseUrl });
 
 if (!supabaseKey || !supabaseUrl) {
   console.error("supabase key or URL not found");
