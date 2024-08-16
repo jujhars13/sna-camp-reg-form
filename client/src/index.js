@@ -9,10 +9,6 @@ const supabaseKey = process.env?.SUPABASE_ANON_KEY
   ? process.env.SUPABASE_ANON_KEY
   : undefined;
 
-const config = {
-  serverUrl: "http://localhost:8080/server/snaCamp"
-};
-
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
   environmentInput.value = environment;
@@ -25,9 +21,6 @@ document
   .getElementById("registrationForm")
   .addEventListener("submit", function (event) {
     event.preventDefault();
-
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    console.log('Supabase Instance: ', supabase)
 
     const dob = document.getElementById("dob").value;
     const yearAttendedBefore =
@@ -50,12 +43,7 @@ document
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
 
-    // const { data, error } = await supabase
-    // .from('snacamp')
-    // .insert([
-    //   { some_column: 'someValue', other_column: 'otherValue' },
-    // ])
-    // .select()
+    const supabase = createClient(supabaseUrl, supabaseKey);
     supabase
       .from("snacamp")
       .insert([jsonFormData])
