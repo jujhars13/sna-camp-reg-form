@@ -1,17 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-const environment = process.env?.NODE_ENV
-  ? process.env.NODE_ENV
-  : "development";
-const supabaseUrl = process.env?.SUPABASE_URL
-  ? process.env.SUPABASE_URL
-  : undefined;
-const supabaseKey = process.env?.SUPABASE_ANON_KEY
-  ? process.env.SUPABASE_ANON_KEY
-  : undefined;
 
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
-  environmentInput.value = environment;
+  environmentInput.value = __environment__;
 }
 
 /**
@@ -43,8 +34,8 @@ document
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
 
-    console.log({ supabaseUrl, supabaseKey });
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    console.log({ __supabaseUrl__, __supabaseKey });
+    const supabase = createClient(__supabaseUrl__, __supabaseKey__);
     supabase
       .from("snacamp")
       .insert([jsonFormData])
@@ -61,6 +52,6 @@ document
       })
       .catch((error) => {
         alert("There was a problem with your submission: " + error.message);
-        console.error("Error:", {error});
+        console.error("Error:", { error });
       });
   });

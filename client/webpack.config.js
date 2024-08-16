@@ -1,8 +1,9 @@
-require('dotenv').config();
+require("dotenv").config();
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
+const { webpack } = require("webpack");
 
 const environment = process.env?.NODE_ENV
   ? process.env.NODE_ENV
@@ -29,7 +30,11 @@ module.exports = {
     path: path.resolve(__dirname, "dist")
   },
   plugins: [
-    new Dotenv(),
+    new webpack.DefinePlugin({
+      __supabaseUrl__: supabaseUrl,
+      __supabaseKey__: supabaseKey,
+      __environment__: environment
+    }),
     new HtmlWebpackPlugin({
       template: "src/index.html"
     }),
