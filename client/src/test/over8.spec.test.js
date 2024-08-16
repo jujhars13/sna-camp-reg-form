@@ -6,8 +6,8 @@ const { fakerEN_GB } = require("@faker-js/faker");
   let driver = await new Builder().forBrowser("chrome").build();
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
-    await driver.get("http://localhost:8080/");
-   // await driver.get("https://snaform.com/");
+   // await driver.get("http://localhost:8080/");
+    await driver.get("https://snaform.com/");
 
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();

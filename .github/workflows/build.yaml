@@ -51,9 +51,10 @@ jobs:
         env:
           # For maximum backward compatibility with Hugo modules
           NODE_ENV: production
-          SUPABASE_URL: "https://lighsugaslqwzynyhnzl.supabase.co"
+          SUPABASE_URL: https://lighsugaslqwzynyhnzl.supabase.co
           SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
         run: |
+          touch .env
           npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
