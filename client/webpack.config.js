@@ -31,9 +31,9 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __supabaseUrl__: supabaseUrl,
-      __supabaseKey__: supabaseKey,
-      __environment__: environment
+      SUPABASE_URL: supabaseUrl,
+      SUPABASE_KEY: supabaseKey,
+      ENVIRONMENT: environment
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html"
