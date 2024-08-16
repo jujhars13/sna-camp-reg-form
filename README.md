@@ -21,7 +21,7 @@ npm test
 - [x] Finish basic form
 - [x] setup Supabase project
 - [x] Write unit test
-- [ ] Write Schema for application
+- [x] Write Schema for application
 - [ ] Test end to end integration
 - [ ] Write report pages for database
 - [ ] Tweak and tidy form

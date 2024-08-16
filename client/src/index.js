@@ -1,7 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
-const environment = process.env?.NODE_ENV ? process.env.NODE_ENV : "development";
-const supabaseUrl = process.env?.SUPABASE_URL ? process.env.SUPABASE_URL : undefined;
-const supabaseKey = process.env?.SUPABASE_KEY ? process.env.SUPABASE_KEY : undefined;
+import { createClient } from "@supabase/supabase-js";
+const environment = process.env?.NODE_ENV
+  ? process.env.NODE_ENV
+  : "development";
+const supabaseUrl = process.env?.SUPABASE_URL
+  ? process.env.SUPABASE_URL
+  : undefined;
+const supabaseKey = process.env?.SUPABASE_KEY
+  ? process.env.SUPABASE_KEY
+  : undefined;
 
 const config = {
   serverUrl: "http://localhost:8080/server/snaCamp"
@@ -12,57 +18,60 @@ if (environmentInput) {
   environmentInput.value = environment;
 }
 
-if (environment) {
-  // Add development-specific configuration here if needed
-  config.serverUrl = "https://sna-camp-form.jujhar.com/server/snaCamp";
-}
+/**
+ * Handle form submission
+ */
+document
+  .getElementById("registrationForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
 
-const aloo = {
-  gobi: () => console.log("gobi is a nice sabji")
-};
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-console.log(aloo.gobi());
-document.getElementById('registrationForm').addEventListener('submit', function (event) {
-  event.preventDefault();
+    const dob = document.getElementById("dob").value;
+    const yearAttendedBefore =
+      document.getElementById("yearAttendedBefore").value;
 
-  const supabase = createClient(supabaseUrl, supabaseKey)
+    if (
+      yearAttendedBefore &&
+      (yearAttendedBefore < 1900 ||
+        yearAttendedBefore > new Date().getFullYear())
+    ) {
+      alert('Please enter a valid year for "Year Attended Before".');
+      return;
+    }
 
+    if (new Date(dob) > new Date()) {
+      alert("Please enter a valid date of birth.");
+      return;
+    }
 
-  const dob = document.getElementById('dob').value;
-  const yearAttendedBefore = document.getElementById('yearAttendedBefore').value;
+    const formData = new FormData(this);
+    const jsonFormData = Object.fromEntries(formData.entries());
 
-  if (yearAttendedBefore && (yearAttendedBefore < 1900 || yearAttendedBefore > new Date().getFullYear())) {
-    alert('Please enter a valid year for "Year Attended Before".');
-    return;
-  }
+    // const { data, error } = await supabase
+    // .from('snacamp')
+    // .insert([
+    //   { some_column: 'someValue', other_column: 'otherValue' },
+    // ])
+    // .select()
 
-  if (new Date(dob) > new Date()) {
-    alert('Please enter a valid date of birth.');
-    return;
-  }
-
-  const formData = new FormData(this);
-  const jsonData = Object.fromEntries(formData.entries());
-
-  fetch(config.serverUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(jsonData)
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      alert('Form submitted successfully!');
-      console.log('Success:', data);
-    })
-    .catch(error => {
-      alert('There was a problem with your submission: ' + error.message);
-      console.error('Error:', error);
-    });
-});
+    supabase
+      .from("snacamp")
+      .insert([jsonFormData])
+      .select()
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        alert("Form submitted successfully!");
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        alert("There was a problem with your submission: " + error.message);
+        console.error("Error:", error);
+      });
+  });

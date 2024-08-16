@@ -47,7 +47,7 @@ const assert = require("assert");
     await driver.findElement(By.id("guardianNumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
-    await driver.findElement(By.id("notes")).sendKeys(notes);
+    await driver.findElement(By.id("notes")).sendKeys(`testing: ${notes}`);
     await driver
       .findElement(By.id("yearAttendedBefore"))
       .sendKeys(yearAttendedBefore.toString());
