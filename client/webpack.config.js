@@ -8,10 +8,9 @@ const { webpack, DefinePlugin } = require("webpack");
 const environment = process.env?.NODE_ENV
   ? process.env.NODE_ENV
   : "development";
-// const supabaseKey = process.env?.SUPABASE_ANON_KEY
-//   ? process.env.SUPABASE_ANON_KEY
-//   : undefined;
-const supabaseKey = "aloo";
+const supabaseKey = process.env?.SUPABASE_ANON_KEY
+  ? process.env.SUPABASE_ANON_KEY
+  : undefined;
 const supabaseUrl = process.env?.SUPABASE_URL
   ? process.env.SUPABASE_URL
   : undefined;
