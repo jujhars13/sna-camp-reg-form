@@ -1,12 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 const environment = process.env?.NODE_ENV ? process.env.NODE_ENV : "development";
-const supabaseUrl = 'https://lighsugaslqwzynyhnzl.supabase.co'
+const supabaseUrl = process.env?.SUPABASE_URL ? process.env.SUPABASE_URL : undefined;
 const supabaseKey = process.env?.SUPABASE_KEY ? process.env.SUPABASE_KEY : undefined;
-
-if (!supabaseKey){
-  console.error('No database key found');
-}
-
 
 const config = {
   serverUrl: "http://localhost:8080/server/snaCamp"
