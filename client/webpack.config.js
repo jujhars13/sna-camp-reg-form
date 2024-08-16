@@ -31,8 +31,8 @@ module.exports = {
   },
   plugins: [
     new DefinePlugin({
-      SUPABASE_URL: supabaseUrl,
-      SUPABASE_KEY: supabaseKey,
+      SUPABASEURL: supabaseUrl,
+      SUPABASEKEY: supabaseKey,
       ENVIRONMENT: environment
     }),
     new HtmlWebpackPlugin({
