@@ -53,6 +53,7 @@ jobs:
           NODE_ENV: production
           SUPABASE_URL: https://lighsugaslqwzynyhnzl.supabase.co
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
           touch .env
           npm run build
