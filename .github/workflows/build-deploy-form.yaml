@@ -1,5 +1,5 @@
 # Sample workflow for building and deploying a Hugo site to GitHub Pages
-name: Deploy site to Pages
+name: Build and Deploy form to Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -44,10 +44,10 @@ jobs:
         id: pages
         uses: actions/configure-pages@v4
       - name: Install Node.js dependencies
-        working-directory: ./client
+        working-directory: ./form
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
       - name: Build with webpack
-        working-directory: ./client
+        working-directory: ./form
         env:
           # For maximum backward compatibility with Hugo modules
           NODE_ENV: production
@@ -59,7 +59,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./client/dist
+          path: ./form/dist
 
   # Deployment job
   deploy:

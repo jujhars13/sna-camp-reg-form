@@ -1,22 +1,15 @@
-networks:
-  internal:
-    internal: true
-
-volumes:
-  postgres-data:
-    driver: local
-
 services:
-
-  client:
+  admin-page:
     build:
-      context: ./client
-      dockerfile: Dockerfile
+      context: ./admin-page
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3040:8080"
+      - "9229:9229"
     expose:
-      - "80/tcp"
+      - "8080/tcp"
+      - "9229/tcp"
     restart: unless-stopped
     labels:
       com.centurylinklabs.watchtower.enable: true
-      com.jujhar.project: "sna-camp-reg-form"
-    networks:
-      - internal
+      com.jujhar.project: "sna-camp-reg-admin-page"

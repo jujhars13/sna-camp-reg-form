@@ -46,7 +46,6 @@ chromeOptions.setUserPreferences({
     const guardianNumber = fakerEN_GB.phone.number();
     const email = fakerEN_GB.internet.email();
     const allergies = fakerEN_GB.lorem.words(3);
-    const notes = fakerEN_GB.lorem.sentence();
     const yearAttendedBefore = fakerEN_GB.date
       .past({ years: 2, refDate: new Date() })
       .getFullYear();
@@ -67,7 +66,7 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("email")).sendKeys(email);
     await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
-    await driver.findElement(By.id("notes")).sendKeys(`testing: ${notes}`);
+    await driver.findElement(By.id("notes")).sendKeys(`{testing}`);
     await driver
       .findElement(By.id("yearattendedbefore"))
       .sendKeys(yearAttendedBefore.toString());
