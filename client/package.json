@@ -1,5 +1,5 @@
 {
-  "name": "kitchen-dashboard",
+  "name": "sna-web-form",
   "private": true,
   "version": "1.0.0",
   "main": "webpack.config.js",

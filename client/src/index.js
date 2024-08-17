@@ -5,6 +5,10 @@ if (environmentInput) {
   environmentInput.value = __environment;
 }
 
+// set date to 8 years ago to make things easier
+const dob = document.getElementById("dob");
+dob.value=new Date(new Date().getFullYear() - 8, new Date().getMonth(), new Date().getDay()).toISOString().split('T')[0];
+
 /**
  * Handle form submission
  */
@@ -15,7 +19,7 @@ document
 
     const dob = document.getElementById("dob").value;
     const yearAttendedBefore =
-      document.getElementById("yearAttendedBefore").value;
+      document.getElementById("yearattendedbefore").value;
 
     if (
       yearAttendedBefore &&
@@ -37,20 +41,18 @@ document
     const supabase = createClient(__supabase_url, __supabase_key);
     supabase
       .from("snacamp")
-      .insert([jsonFormData])
-      .select()
+      .insert(jsonFormData)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        if (response?.status !== 201) {
+          console.dir(response);
+          throw new Error("Network response was not ok", response);
         }
-        return response.json();
+        return response;
       })
       .then((data) => {
-        alert("Form submitted successfully!");
         console.log("Success:", data);
       })
       .catch((error) => {
-        alert("There was a problem with your submission: " + error.message);
-        console.error("Error:", { error });
+        console.error("Error:", error);
       });
   });
