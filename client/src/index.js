@@ -51,6 +51,7 @@ document
       })
       .then((data) => {
         console.log("Success:", data);
+        window.location.href = "done.html";
       })
       .catch((error) => {
         console.error("Error:", error);

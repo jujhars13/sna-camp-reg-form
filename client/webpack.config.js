@@ -38,6 +38,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "src/index.html"
     }),
+    new HtmlWebpackPlugin({
+      filename:'done.html',
+      template: "src/done.html"
+    }),
     new CopyWebpackPlugin({
       patterns: [
         { from: "src/css", to: path.resolve(__dirname, "dist/css") },
