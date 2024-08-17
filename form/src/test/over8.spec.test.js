@@ -46,10 +46,6 @@ chromeOptions.setUserPreferences({
     const guardianNumber = fakerEN_GB.phone.number();
     const email = fakerEN_GB.internet.email();
     const allergies = fakerEN_GB.lorem.words(3);
-    const yearAttendedBefore = fakerEN_GB.date
-      .past({ years: 2, refDate: new Date() })
-      .getFullYear();
-    console.log(dob);
 
     // Fill out the form fields
     await driver.findElement(By.id("firstname")).sendKeys(firstname);
@@ -67,9 +63,6 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
     await driver.findElement(By.id("notes")).sendKeys(`{testing}`);
-    await driver
-      .findElement(By.id("yearattendedbefore"))
-      .sendKeys(yearAttendedBefore.toString());
 
     // Submit the form
     await driver.findElement(By.css('button[type="submit"]')).click();
