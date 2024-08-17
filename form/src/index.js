@@ -26,17 +26,6 @@ document
     event.preventDefault();
 
     const dob = document.getElementById("dob").value;
-    const yearAttendedBefore =
-      document.getElementById("yearattendedbefore").value;
-
-    if (
-      yearAttendedBefore &&
-      (yearAttendedBefore < 1900 ||
-        yearAttendedBefore > new Date().getFullYear())
-    ) {
-      alert('Please enter a valid year for "Year Attended Before".');
-      return;
-    }
 
     if (new Date(dob) > new Date()) {
       alert("Please enter a valid date of birth.");
@@ -45,8 +34,8 @@ document
 
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
-
     const supabase = createClient(__supabase_url, __supabase_key);
+
     supabase
       .from("snacamp")
       .insert(jsonFormData)
