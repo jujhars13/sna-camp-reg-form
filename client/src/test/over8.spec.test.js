@@ -23,8 +23,8 @@ chromeOptions.setUserPreferences({
 
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
-    await driver.get("http://localhost:8080/");
-    //await driver.get("https://snaform.com/");
+    //await driver.get("http://localhost:8080/");
+    await driver.get("https://snaform.com/");
 
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();
@@ -65,7 +65,7 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("guardianname")).sendKeys(guardianName);
     await driver.findElement(By.id("guardiannumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
-    await driver.findElement(By.id("tshirtsize")).sendKeys("XL");
+    await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
     await driver.findElement(By.id("notes")).sendKeys(`testing: ${notes}`);
     await driver

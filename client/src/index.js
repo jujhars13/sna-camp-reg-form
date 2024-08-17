@@ -5,9 +5,17 @@ if (environmentInput) {
   environmentInput.value = __environment;
 }
 
-// set date to 8 years ago to make things easier
+// set default DOB date to 8 years ago to make things easier
 const dob = document.getElementById("dob");
-dob.value=new Date(new Date().getFullYear() - 8, new Date().getMonth(), new Date().getDay()).toISOString().split('T')[0];
+if (dob) {
+  dob.value = new Date(
+    new Date().getFullYear() - 8,
+    new Date().getMonth(),
+    new Date().getDay()
+  )
+    .toISOString()
+    .split("T")[0];
+}
 
 /**
  * Handle form submission
