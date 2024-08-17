@@ -1,17 +1,40 @@
 services:
-  admin-page:
-    build:
-      context: ./admin-page
-      dockerfile: Dockerfile.dev
+  # admin-page:
+  #   build:
+  #     context: ./admin-page
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - "3040:8080"
+  #     - "9229:9229"
+  #   expose:
+  #     - "8080/tcp"
+  #     - "9229/tcp"
+  #   restart: unless-stopped
+  #   labels:
+  #     com.centurylinklabs.watchtower.enable: true
+  #     com.jujhar.project: "sna-camp-reg-admin-page"
+  #   env_file:
+  #     - .env
+  metabases:
+    image: metabase/metabase
     ports:
-      - "3040:8080"
-      - "9229:9229"
-    expose:
-      - "8080/tcp"
-      - "9229/tcp"
-    restart: unless-stopped
+      - "3000:3000"
+    volumes:
+      - /dev/urandom:/dev/random:ro
+    # environment:
+    #   MB_DB_TYPE: ${MB_DB_TYPE}
+    #   MB_DB_DBNAME: ${MB_DB_DBNAME}
+    #   MB_DB_PORT: ${MB_DB_PORT}
+    #   MB_DB_USER: ${MB_DB_USER}
+    #   MB_DB_PASS: ${MB_DB_PASS}
+    #   MB_DB_HOST: ${MB_DB_HOST}
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
     labels:
       com.centurylinklabs.watchtower.enable: true
-      com.jujhar.project: "sna-camp-reg-admin-page"
-    env_file:
-      - .env
+      com.jujhar.project: "sna-camp-reg-metabase"
+    # env_file:
+    #   - .env

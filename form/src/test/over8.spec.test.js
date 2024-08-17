@@ -9,8 +9,8 @@ chromeOptions.setUserPreferences({
   "disable-notifications": true,
   devtools: {
     preferences: {
-      "panel-selectedTab": '"console"',
-      currentDockState: '"right"'
+      "panel-selectedTab": "Console",
+      currentDockState: "right"
     }
   }
 });
@@ -23,8 +23,8 @@ chromeOptions.setUserPreferences({
 
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
-    //await driver.get("http://localhost:8080/");
-    await driver.get("https://snaform.com/");
+    await driver.get("http://localhost:8080/");
+    //await driver.get("https://snaform.com/");
 
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();
@@ -32,12 +32,16 @@ chromeOptions.setUserPreferences({
     const otherNames = fakerEN_GB.person.firstName();
     const gender = fakerEN_GB.helpers.arrayElement(["M", "F"]);
     const dob = fakerEN_GB.date
-      .past({ date: 10, dateRef: new Date() })
+      .between({
+        from: "2014-01-01T00:00:00.000Z",
+        to: "2016-01-01T00:00:00.000Z"
+      })
       .toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
         year: "numeric"
       });
+    console.log({ firstname, surname, dob });
     const addressLine1 = fakerEN_GB.location.streetAddress();
     const addressLine2 = fakerEN_GB.location.secondaryAddress();
     const city = fakerEN_GB.location.city();
@@ -75,7 +79,8 @@ chromeOptions.setUserPreferences({
 
     // Assert that the submission was successful
     //assert.strictEqual(alertText, "Form submitted successfully!");
-    await driver.sleep(60000);
+    await driver.wait(until.elementLocated(By.xpath("//h1[text()='Thank you for registering']")), 5000);
+    //await driver.sleep(200);
   } catch (error) {
     console.error("Test failed:", error);
   } finally {
