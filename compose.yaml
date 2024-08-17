@@ -13,3 +13,5 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: true
       com.jujhar.project: "sna-camp-reg-admin-page"
+    env_file:
+      - .env
