@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Registration Form</title>
+  <title>SNA Camp Secure Registration Form</title>
   <link rel="stylesheet" href="/css/pico.min.css">
   <link rel="stylesheet" href="/css/index.css">
   <script src="https://js-de.sentry-cdn.com/f31d2823aa35217c1ff30935009d8ff3.min.js" crossorigin="anonymous"></script>
@@ -31,7 +31,7 @@
 
 <body>
 
-  <h1>SNA Camp Registration Form</h1>
+  <h1>SNA Camp Secure 🔒 Registration Form </h1>
 
   <form id="registrationForm">
     <div class="field-group">
@@ -90,12 +90,12 @@
 
     <div class="field-group">
       <label for="guardiannumber">Guardian's Number*</label>
-      <input id="guardiannumber" name="guardiannumber" type="tel" required />
+      <input id="guardiannumber" name="guardiannumber" type="tel" placeholder="In case of emergency" required />
     </div>
 
     <div class="field-group">
       <label for="email">Email</label>
-      <input id="email" name="email" type="email" />
+      <input id="email" name="email" type="email" placeholder="parent/guardian's email"/>
     </div>
 
     <div class="field-group">
@@ -118,13 +118,13 @@
 
     <div class="field-group">
       <label for="allergies">Any Allergies? (empty if none)</label>
-      <input id="allergies" name="allergies" type="text"
-        placeholder="Detail any allergies the child may have, otherwise leave empty" />
+      <textarea id="allergies" name="allergies" type="text"
+        placeholder="Does the child have any allergies? Otherwise leave empty" ></textarea>
     </div>
 
     <div class="field-group">
       <label for="notes">Notes/SEND</label>
-      <textarea id="notes" name="notes" placeholder="Any Special Education or Disability needs?"></textarea>
+      <textarea id="notes" name="notes" placeholder="Any Special Education or Disability needs? Otherwise leave empty"></textarea>
     </div>
 
     <button id="submit" type="submit">Submit</button>
