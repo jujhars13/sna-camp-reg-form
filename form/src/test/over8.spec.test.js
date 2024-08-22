@@ -23,8 +23,8 @@ chromeOptions.setUserPreferences({
 
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
-    await driver.get("http://localhost:8081/");
-    //await driver.get("https://snaform.com/");
+    //await driver.get("http://localhost:8081/");
+    await driver.get("https://gupt.snaform.com/");
 
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();

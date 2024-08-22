@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNA Camp Secure Registration Form</title>
+  <link rel="stylesheet" href="/css/pico.min.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <script src="https://js-de.sentry-cdn.com/f31d2823aa35217c1ff30935009d8ff3.min.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .field-group {
+      margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #1f8dd6;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>SNA Camp Secure 🔒 Registration Form </h1>
+
+  <form id="registrationForm">
+    <div class="field-group">
+      <label for="firstname">Firstname*</label>
+      <input id="firstname" name="firstname" type="text" placeholder="Firstname" required />
+    </div>
+
+    <div class="field-group">
+      <label for="surname">Surname*</label>
+      <input id="surname" name="surname" type="text" placeholder="Surname" />
+    </div>
+
+    <div class="field-group">
+      <label for="othernames">Other Names</label>
+      <input id="othernames" name="othernames" type="text" placeholder="Any other names?" />
+    </div>
+
+    <div class="field-group">
+      <label for="gender">Gender*</label>
+      <select id="gender" name="gender" required>
+        <option value="">Select</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label for="dob">Date of Birth*</label>
+      <input id="dob" name="dob" type="date" required />
+    </div>
+
+    <div class="field-group">
+      <label for="addressline1">Address Line 1*</label>
+      <input id="addressline1" name="addressline1" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="addressline2">Address Line 2</label>
+      <input id="addressline2" name="addressline2" type="text" />
+    </div>
+
+    <div class="field-group">
+      <label for="city">City*</label>
+      <input id="city" name="city" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="postcode">Postcode*</label>
+      <input id="postcode" name="postcode" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="guardianname">Guardian's Name*</label>
+      <input id="guardianname" name="guardianname" type="text" required />
+    </div>
+
+    <div class="field-group">
+      <label for="guardiannumber">Guardian's Number*</label>
+      <input id="guardiannumber" name="guardiannumber" type="tel" placeholder="In case of emergency" required />
+    </div>
+
+    <div class="field-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="parent/guardian's email"/>
+    </div>
+
+    <div class="field-group">
+      <label for="tshirtsize">T-Shirt Size for child*</label>
+      <select id="tshirtsize" name="tshirtsize" required>
+        <option value="">Select</option>
+        <option value="Kids XS">Kids XS</option>
+        <option value="Kids S">Kids S</option>
+        <option value="Kids M">Kids M</option>
+        <option value="Kids L">Kids L</option>
+        <option value="Kids XL">Kids XL</option>
+        <option value="Adults XS">Adults XS</option>
+        <option value="Adults S">Adults S</option>
+        <option value="Adults M">Adults M</option>
+        <option value="Adults L">Adults L</option>
+        <option value="Adults XL">Adults XL</option>
+        <option value="Adults 2XL">Adults 2XL</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label for="allergies">Any Allergies? (empty if none)</label>
+      <textarea id="allergies" name="allergies" type="text"
+        placeholder="Does the child have any allergies? Otherwise leave empty" ></textarea>
+    </div>
+
+    <div class="field-group">
+      <label for="notes">Notes/SEND</label>
+      <textarea id="notes" name="notes" placeholder="Any Special Education or Disability needs? Otherwise leave empty"></textarea>
+    </div>
+
+    <article>
+      <header>Terms and Conditions</header>
+      <div class="field-group">
+      <input id="terms" name="terms" type="checkbox" required />
+      <label for="terms">I agree with the terms and conditions*</label>
+      </div>
+    </article>
+    </article>
+
+    <button id="submit" type="submit">Submit</button>
+    <input type="hidden" id="campname" name="campname" value="west-bromwich-2024" />
+    <input type="hidden" id="environment" name="environment" value="unknown" />
+
+  </form>
+
+  <article>
+    <header>Terms and Conditions*</header>
+    <ul>
+      <li>All personal belongings are your own responsibility, SNA will not be liable for damage or loss</li>
+      <li>Bring comfortable clothing appropriate for a Gurdwara Sahib</li>
+      <li>Campers are not allowed to use mobile phones unless it's an emergency.  Phones may be confiscated</li>
+      <li>Campers photos may be used in promotional material</li>
+    </ul>
+  </article>
+
+</body>
+
+</html>
