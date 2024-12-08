@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "NODE_ENV=test node_modules/mocha/bin/mocha './{,!(node_modules)/**}/*.test.js'",
+    "test": "NODE_ENV=test mocha './{,!(node_modules)/**}/*.test.js'",
     "build": "node_modules/.bin/webpack build",
     "watch": "NODE_ENV=development node_modules/.bin/webpack --watch",
     "lint": "eslint src",
@@ -22,6 +22,7 @@
     "eslint": "^9.6.0",
     "globals": "^15.8.0",
     "html-webpack-plugin": "^5.6.0",
+    "mocha": "^11.0.1",
     "prettier": "^3.3.2",
     "selenium-webdriver": "^4.23.0",
     "webpack": "^5.94.0",

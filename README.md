@@ -4,12 +4,21 @@ A registration for for SNA camps
 
 Web client -> supabase database
 
+Using Metabase for reports
+
+## Running
+
+### Client
+
+```bash
+(cd form && npm run dev)
+```
 
 ## Testing with Selenium
 
 ```bash
 
-cd src
+cd form
 
 npm i
 
