@@ -51,8 +51,11 @@ jobs:
         env:
           # For maximum backward compatibility with Hugo modules
           NODE_ENV: production
-          SUPABASE_URL: https://lighsugaslqwzynyhnzl.supabase.co
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_URL: https://example.com
+          SUPABASE_ANON_KEY: bugger_off
+          # SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          #SUPABASE_URL: https://lighsugaslqwzynyhnzl.supabase.co
+          # SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           # SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
           touch .env
