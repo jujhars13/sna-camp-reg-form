@@ -4,6 +4,70 @@ const environmentInput = document.getElementById("environment");
 if (environmentInput) {
   environmentInput.value = __environment;
 }
+let eventData = {};
+
+document.addEventListener("DOMContentLoaded", function () {
+  // DOM is fully loaded
+  const domain = window.location.hostname;
+  let event = "default";
+
+  switch (domain) {
+    case "gupt.snaform.com":
+      event = "stratford-road-2025-08-11";
+      break;
+    default:
+      event = "default";
+      break;
+  }
+
+  fetch(`events/${event}.json`)
+    .then((response) => response.json())
+    .then((data) => {
+      eventData = data;
+      updateEventDetails(eventData);
+    })
+    .catch((error) => {
+      console.error("Error fetching event data:", error);
+      if (
+        window.Sentry &&
+        typeof window.Sentry.captureException === "function"
+      ) {
+        window.Sentry.captureException(error);
+      }
+    })
+    .finally(() => {
+      //document.body.removeChild(loadingDiv);
+    });
+});
+
+/**
+ * Updates the event details on the page using the provided event data.
+ *
+ * Sets the human-readable event name and camp name in the DOM.
+ * If the event does not include t-shirt information, removes the t-shirt size selection from the form.
+ *
+ * @param {Object} eventData - The event data object loaded from the JSON file.
+ * @param {string} [eventData.humanName] - The human-readable name of the event.
+ * @param {string} [eventData.name] - The internal or short name of the camp/event.
+ * @param {boolean} [eventData.tshirts] - Indicates if t-shirt selection is available for the event.
+ */
+function updateEventDetails(eventData) {
+  const humanNameElement = document.getElementById("humanName");
+  if (humanNameElement) {
+    humanNameElement.textContent = eventData.humanName || "Event Name";
+  }
+  const campNameElement = document.getElementById("campname");
+  if (campNameElement) {
+    campNameElement.textContent = eventData.name || "unknown-from-json";
+  }
+
+  if (!eventData.tshirts) {
+    const tshirtDiv = document.getElementById("div-tshirt-size");
+    if (tshirtDiv) {
+      tshirtDiv.remove();
+    }
+  }
+}
 
 /**
  * Handle form submission
@@ -37,9 +101,12 @@ document
       })
       .then((data) => {
         console.log("Success:", data);
-        setTimeout(() => {
-          window.location.href = "done.html";
-        }, Math.floor(Math.random() * 301) + 300);
+        setTimeout(
+          () => {
+            window.location.href = "done.html";
+          },
+          Math.floor(Math.random() * 301) + 300
+        );
       })
       .catch((error) => {
         console.error("Error:", error);

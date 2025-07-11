@@ -1,0 +1,9 @@
+{
+  "name": "test-2025-08-11",
+  "humanName": "TEST EVENT 2025",
+  "date": {
+    "from": "2025-01-11",
+    "to": "2025-01-16"
+  },
+  "tshirts": true
+}
