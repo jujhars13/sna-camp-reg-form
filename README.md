@@ -32,6 +32,7 @@ npm test
 - [x] Write unit test
 - [x] Write db Schema for application
 - [ ] build and deploy application container
+- [x] sort out reverse proxy and DNS for deployments
 - [ ] Write kustomize manifest for app
 - [ ] Add ability to customise form for different events
 - [ ] Test end to end integration
