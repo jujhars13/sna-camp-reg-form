@@ -12,7 +12,13 @@ document.addEventListener("DOMContentLoaded", function () {
   let event = "default";
 
   switch (domain) {
-    case "gupt.snaform.com":
+    case "stratford.snaform.com":
+      event = "stratford-road-2025-08-11";
+      break;
+    case "westbrom.snaform.com":
+      event = "stratford-road-2025-08-11";
+      break;
+    case "wolves.snaform.com":
       event = "stratford-road-2025-08-11";
       break;
     default:
