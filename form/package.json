@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "@picocss/pico": "^2.0.6",
-    "@supabase/supabase-js": "^2.45.1"
+    "@supabase/supabase-js": "^2.50.5"
   }
 }
