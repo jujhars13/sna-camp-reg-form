@@ -33,7 +33,7 @@
 <body>
 
   <h1>SNA Camp 🔒 Secure Registration Form</h1>
-  <h5 id="humanName">EventName</h5>
+  <h5 id="humanName">Unknown Event</h5>
 
   <form id="registrationForm">
     <div class="field-group">
@@ -62,7 +62,7 @@
 
     <div class="field-group">
       <label for="dob">Date of Birth*</label>
-      <input id="dob" name="dob" type="date" required/>
+      <input id="dob" name="dob" type="date" required />
     </div>
 
     <div class="field-group">
@@ -97,7 +97,7 @@
 
     <div class="field-group">
       <label for="email">Email</label>
-      <input id="email" name="email" type="email" placeholder="parent/guardian's email"/>
+      <input id="email" name="email" type="email" placeholder="parent/guardian's email" />
     </div>
 
     <div class="field-group" id="div-tshirt-size">
@@ -121,24 +121,25 @@
     <div class="field-group">
       <label for="allergies">Any Allergies? (empty if none)</label>
       <textarea id="allergies" name="allergies" type="text"
-        placeholder="Does the child have any allergies? Otherwise leave empty" ></textarea>
+        placeholder="Does the child have any allergies? Otherwise leave empty"></textarea>
     </div>
 
     <div class="field-group">
       <label for="notes">Notes/SEND</label>
-      <textarea id="notes" name="notes" placeholder="Any Special Education or Disability needs? Otherwise leave empty"></textarea>
+      <textarea id="notes" name="notes"
+        placeholder="Any Special Education or Disability needs? Otherwise leave empty"></textarea>
     </div>
 
     <article>
       <header>Terms and Conditions</header>
       <div class="field-group">
-      <input id="terms" name="terms" type="checkbox" required />
-      <label for="terms">I agree with the terms and conditions*</label>
+        <input id="terms" name="terms" type="checkbox" required />
+        <label for="terms">I agree with the terms and conditions*</label>
       </div>
     </article>
     </article>
 
-    <button id="submit" type="submit">Submit</button>
+    <button id="submit" type="submit" disabled>Submit</button>
     <input type="hidden" id="campname" name="campname" value="unknown" />
     <input type="hidden" id="environment" name="environment" value="unknown" />
 
@@ -149,11 +150,14 @@
     <ul>
       <li>All personal belongings are your own responsibility, SNA will not be liable for damage or loss</li>
       <li>Bring comfortable clothing appropriate for a Gurdwara Sahib</li>
-      <li>Campers are not allowed to use mobile phones unless it's an emergency.  Phones may be confiscated</li>
+      <li>Campers are not allowed to use mobile phones unless it's an emergency. Phones may be confiscated</li>
       <li>Campers photos and videos may be used in promotional material</li>
     </ul>
   </article>
 
+  <footer>
+    <small><span id="version"></span></small>
+  </footer>
 </body>
 
 </html>

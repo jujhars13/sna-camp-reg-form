@@ -9,6 +9,8 @@ let eventData = {};
 document.addEventListener("DOMContentLoaded", function () {
   // DOM is fully loaded
   const domain = window.location.hostname;
+  console.log({domain});
+  const submitButton = document.getElementById("submit");
   let event = "default";
 
   switch (domain) {
@@ -21,10 +23,21 @@ document.addEventListener("DOMContentLoaded", function () {
     case "wolves.snaform.com":
       event = "stratford-road-2025-08-11";
       break;
+    case "localhost":
+      event = "test-event-2025-08-11";
+      break;
     default:
-      event = "default";
+      event = undefined;
       break;
   }
+
+  if (!domain) {
+    submitButton.disabled = false;
+  }
+
+  const versionNumberSpan=document.getElementById('version');
+  versionNumberSpan.textContent="__version:__environment";
+
 
   fetch(`events/${event}.json`)
     .then((response) => response.json())
@@ -44,7 +57,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .finally(() => {
       //document.body.removeChild(loadingDiv);
     });
-});
+
+
+})();
 
 /**
  * Updates the event details on the page using the provided event data.

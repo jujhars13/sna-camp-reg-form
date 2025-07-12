@@ -6,15 +6,10 @@ const Dotenv = require("dotenv-webpack");
 const { webpack, DefinePlugin } = require("webpack");
 const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
-const environment = process.env?.NODE_ENV
-  ? process.env.NODE_ENV
-  : "development";
-const supabaseKey = process.env?.SUPABASE_ANON_KEY
-  ? process.env.SUPABASE_ANON_KEY
-  : undefined;
-const supabaseUrl = process.env?.SUPABASE_URL
-  ? process.env.SUPABASE_URL
-  : undefined;
+const environment = process.env?.NODE_ENV || "development";
+const supabaseKey = process.env?.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env?.SUPABASE_URL;
+const version = process.env?.VERSION;
 
 if (!supabaseKey || !supabaseUrl) {
   console.error("supabase key or URL not found");
@@ -35,13 +30,14 @@ module.exports = {
     new DefinePlugin({
       __supabase_url: JSON.stringify(supabaseUrl),
       __supabase_key: JSON.stringify(supabaseKey),
-      __environment: JSON.stringify(environment)
+      __environment: JSON.stringify(environment),
+      __version: JSON.stringify(version)
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html"
     }),
     new HtmlWebpackPlugin({
-      filename:'done.html',
+      filename: "done.html",
       template: "src/done.html"
     }),
     new CopyWebpackPlugin({
@@ -58,7 +54,7 @@ module.exports = {
     sentryWebpackPlugin({
       org: "jujharcom",
       project: "javascript",
-      authToken: process.env?.SENTRY_AUTH_TOKEN,
-    }),
+      authToken: process.env?.SENTRY_AUTH_TOKEN
+    })
   ]
 };
