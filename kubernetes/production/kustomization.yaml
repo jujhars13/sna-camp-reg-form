@@ -9,6 +9,6 @@ resources:
   - ../base
 
 images:
-  - name: ghr-displays-frontend
+  - name: sna-camp-form-frontend
     newName: ghcr.io/jujhars13/sna-camp-form
     newTag: latest
