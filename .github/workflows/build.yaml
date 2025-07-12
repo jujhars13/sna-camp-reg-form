@@ -65,7 +65,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            - NODE_ENV: production
-            - SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-            - SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-            - SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+            - NODE_ENV=production
+            - SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+            - SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            - SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
