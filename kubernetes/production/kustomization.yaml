@@ -6,7 +6,7 @@ labels:
     environment: production
 
 resources:
-  - ../../base
+  - ../base
 
 images:
   - name: ghr-displays-frontend
