@@ -24,22 +24,18 @@ document.addEventListener("DOMContentLoaded", function () {
       event = "stratford-road-2025-08-11";
       break;
     case "localhost":
-      event = "test-event-2025-08-11";
+      event = "test.json";
       break;
     default:
       event = undefined;
-      break;
-  }
-
-  if (!domain) {
-    submitButton.disabled = false;
+      return;
   }
 
   const versionNumberSpan=document.getElementById('version');
   versionNumberSpan.textContent="__version:__environment";
 
 
-  fetch(`events/${event}.json`)
+  fetch(`data/${event}.json`)
     .then((response) => response.json())
     .then((data) => {
       eventData = data;

@@ -44,6 +44,7 @@ module.exports = {
       patterns: [
         { from: "src/css", to: path.resolve(__dirname, "dist/css") },
         { from: "src/images", to: path.resolve(__dirname, "dist/images") },
+        { from: "src/data", to: path.resolve(__dirname, "dist/data") },
         {
           from: "src/favicon.ico",
           to: path.resolve(__dirname, "dist/favicon.ico")
