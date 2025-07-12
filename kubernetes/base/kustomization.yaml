@@ -10,7 +10,6 @@ labels:
 
 resources:
   - namespace.yaml
-  - sa.yaml
-  - backend.yaml
   - frontend.yaml
   - ingress.yaml
+  - sa.yaml
