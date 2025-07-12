@@ -48,6 +48,8 @@ npm test
 
 kubectl config set-context --current --namespace=argocd
 
+kubectl create ns sna-camp-reg-form
+
 argocd --insecure app create sna-camp-reg-form --repo https://github.com/jujhars13/sna-camp-reg-form --path kubernetes --dest-server https://kubernetes.sna-camp-reg-form.svc --dest-namespace sna-camp-reg-form
 
 argocd --insecure app get sna-camp-reg-form
