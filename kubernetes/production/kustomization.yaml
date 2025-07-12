@@ -10,5 +10,5 @@ resources:
 
 images:
   - name: ghr-displays-frontend
-    newName: registry.home.lan/jujhar/ghr-displays-frontend
-    newTag: v2.0.0
+    newName: ghcr.io/jujhars13/sna-camp-form
+    newTag: latest

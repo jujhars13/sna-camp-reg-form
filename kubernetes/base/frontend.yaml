@@ -44,22 +44,14 @@ spec:
     spec:
       restartPolicy: Always
 
-      volumes:
-        - name: server
-          persistentVolumeClaim:
-            claimName: gurdwara-displays-pvc
-
       containers:
         - name: frontend
-          image: ghr-displays-frontend
+          image: sna-camp-form-frontend
           imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: "nginx"
               protocol: TCP
-          volumeMounts:
-            - name: server
-              mountPath: /usr/share/nginx/html/server
           livenessProbe:
             httpGet:
               path: /
