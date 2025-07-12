@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+data:
+  OPENAI_API_KEY: "${OPENAI_API_KEY}"
+  NODE_ENV: "production"
+  TEST_VAR: "test-value"
+
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backend-task
+spec:
+  schedule: "*/2 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+
+          volumes:
+            - name: server
+              persistentVolumeClaim:
+                claimName: gurdwara-displays-pvc
+
+          containers:
+            - name: backend
+              imagePullPolicy: Always
+              image: ghr-displays-backend
+              envFrom:
+                - configMapRef:
+                    name: backend-config
+              volumeMounts:
+                - name: server
+                  mountPath: /webroot
