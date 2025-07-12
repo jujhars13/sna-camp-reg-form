@@ -14,7 +14,9 @@ WORKDIR /app
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-ENV SUPABASE_ANON_KEY, SUPABASE_URL, SENTRY_AUTH_TOKEN
+ENV SUPABASE_ANON_KEY=""
+ENV SUPABASE_URL=""
+# SENTRY_AUTH_TOKEN should be provided securely at runtime, not set in the Dockerfile
 
 # Expose port 80 for HTTP traffic
 EXPOSE 80/tcp
