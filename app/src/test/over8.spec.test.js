@@ -35,9 +35,9 @@ chromeOptions.setUserPreferences({
     const gender = fakerEN_GB.helpers.arrayElement(["M", "F"]);
     const dob = fakerEN_GB.date
       .between({
-        // 8 to 16 year olds
+        // 8 to 16 year olds, huck in some 6 year olds too
         from: "2010-01-01T00:00:00.000Z",
-        to: "2017-01-01T00:00:00.000Z"
+        to: "2019-01-01T00:00:00.000Z"
       })
       .toLocaleDateString("en-GB", {
         day: "2-digit",
@@ -67,7 +67,10 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("guardianname")).sendKeys(guardianName);
     await driver.findElement(By.id("guardiannumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
-    await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
+    // some events don't have t-shirt sizes
+    if (process.env?.TEST_URL?.includes("stratford") || process.env?.TEST_URL?.includes("westbrom")) {
+      await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
+    }
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
     await driver.findElement(By.id("notes")).sendKeys(`{testing}`);
     await driver.findElement(By.id("terms")).click();
@@ -82,7 +85,12 @@ chromeOptions.setUserPreferences({
 
     // Assert that the submission was successful
     //assert.strictEqual(alertText, "Form submitted successfully!");
-    await driver.wait(until.elementLocated(By.xpath("//h1[text()='Thank you for registering']")), 5000);
+    await driver.wait(
+      until.elementLocated(
+        By.xpath("//h1[text()='Thank you for registering']")
+      ),
+      5000
+    );
     //await driver.sleep(200);
   } catch (error) {
     console.error("Test failed:", error);
