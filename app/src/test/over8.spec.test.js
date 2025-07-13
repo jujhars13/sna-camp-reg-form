@@ -26,6 +26,8 @@ chromeOptions.setUserPreferences({
     //await driver.get("http://localhost:8081/");
     await driver.get(process.env?.TEST_URL || "https://stratford.snaform.com/");
 
+    await driver.wait(until.elementLocated(By.css("form")), 10000);
+
     // Generate fake data using faker.js
     const firstname = fakerEN_GB.person.firstName();
     const surname = fakerEN_GB.person.lastName();
@@ -33,8 +35,9 @@ chromeOptions.setUserPreferences({
     const gender = fakerEN_GB.helpers.arrayElement(["M", "F"]);
     const dob = fakerEN_GB.date
       .between({
-        from: "2014-01-01T00:00:00.000Z",
-        to: "2016-01-01T00:00:00.000Z"
+        // 8 to 16 year olds
+        from: "2010-01-01T00:00:00.000Z",
+        to: "2017-01-01T00:00:00.000Z"
       })
       .toLocaleDateString("en-GB", {
         day: "2-digit",
