@@ -21,8 +21,20 @@ module.exports = {
   entry: "./src/index.js",
   mode: environment,
   output: {
-    filename: "js/main.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist")
+  },
+  optimization: {
+    runtimeChunk: "single",
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    }
   },
   plugins: [
     new DefinePlugin({
@@ -32,6 +44,7 @@ module.exports = {
       __version: JSON.stringify(version)
     }),
     new HtmlWebpackPlugin({
+      title: "Caching",
       template: "src/index.html"
     }),
     new HtmlWebpackPlugin({
