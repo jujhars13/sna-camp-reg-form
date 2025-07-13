@@ -2,25 +2,30 @@ BEGIN;
 
 SET client_encoding = 'LATIN1';
 
-CREATE TABLE snaCamp (
-    id SERIAL PRIMARY KEY,
-    firstname VARCHAR(100) NOT NULL,
-    surname VARCHAR(100) NOT NULL,
-    otherNames VARCHAR(100),
-    gender CHAR(1) NOT NULL CHECK (gender IN ('M', 'F')),
-    dob DATE NOT NULL,
-    addressLine1 VARCHAR(255) NOT NULL,
-    addressLine2 VARCHAR(255) NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    postcode VARCHAR(20) NOT NULL,
-    guardianName VARCHAR(100) NOT NULL,
-    guardianNumber VARCHAR(15) NOT NULL,
-    email VARCHAR(255),
-    allergies TEXT,
-    notes TEXT,
-    tshirtsize VARCHAR(10) NOT NULL,
-    yearAttendedBefore INTEGER CHECK (yearAttendedBefore >= 1900 AND yearAttendedBefore <= EXTRACT(YEAR FROM CURRENT_DATE)),
-    dateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE public.snacamp (
+    id integer NOT NULL,
+    firstname character varying(100) NOT NULL,
+    surname character varying(100) NOT NULL,
+    othernames character varying(100),
+    gender character(1) NOT NULL,
+    dob date NOT NULL,
+    addressline1 character varying(255) NOT NULL,
+    addressline2 character varying(255),
+    city character varying(100) NOT NULL,
+    postcode character varying(20) NOT NULL,
+    guardianname character varying(100) NOT NULL,
+    guardiannumber character varying(15) NOT NULL,
+    email character varying(255),
+    allergies text,
+    notes text,
+    tshirtsize character varying(10),
+    campname character varying,
+    environment character varying,
+    terms boolean,
+    deleted timestamp without time zone,
+    formversion character varying(20) NOT NULL,
+    "dateCreated" timestamp without time zone DEFAULT now(),
+    CONSTRAINT snacamp_gender_check CHECK ((gender = ANY (ARRAY['M'::bpchar, 'F'::bpchar])))
 );
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;

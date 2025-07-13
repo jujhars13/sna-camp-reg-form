@@ -90,7 +90,7 @@ function updateEventDetails(eventData) {
     campNameElement.textContent = eventData.name || "unknown-from-json";
   }
 
-  const versionInput = document.getElementById("version");
+  const versionInput = document.getElementById("formversion");
   if (versionInput) {
     versionInput.value = version;
   }
