@@ -11,7 +11,7 @@ const supabaseUrl = process.env?.SUPABASE_URL;
 const version = process.env?.VERSION;
 
 if (!supabaseKey || !supabaseUrl) {
-  throw new Error("supabase key or URL not found");
+  throw new Error("SUPABASE_ANON_KEY and/or SUPABASE_URL not found");
 }
 
 console.log({ environment, supabaseUrl });

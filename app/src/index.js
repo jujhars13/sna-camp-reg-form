@@ -36,16 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
   }
 
-  document.getElementById("submit").enabled = true;
-
   const versionNumberSpan = document.getElementById("version_display");
   versionNumberSpan.textContent = `${version}:${environment}`;
+
+document.getElementById('loading-overlay').classList.add('visible');
 
   fetch(`data/${eventJson}`)
     .then((response) => response.json())
     .then((data) => {
       eventData = data;
       updateEventDetails(eventData);
+      document.getElementById("submit").disabled=false;
+      document.getElementById('loading-overlay').classList.remove('visible');
     })
     .catch((error) => {
       console.error("Error fetching event data:", error);
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     })
     .finally(() => {
-      //document.body.removeChild(loadingDiv);
+      // dont' do anything - let's just crash
     });
 });
 
