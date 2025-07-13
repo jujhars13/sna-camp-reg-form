@@ -1,6 +1,6 @@
 {
   "name": "sna-reg-form",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Meta package.json to manage semver of whole application. Does nothing else",
   "DO_NOT_DELETE": "Please"
 }
