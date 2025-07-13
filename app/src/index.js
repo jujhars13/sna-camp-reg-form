@@ -8,10 +8,10 @@ if (environmentInput) {
 }
 let eventData = {};
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   // DOM is fully loaded
   const domain = window.location.hostname;
-  console.log({ domain, version, environment });
+  console.log({ version, environment, domain });
   let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
@@ -33,11 +33,12 @@ document.addEventListener("DOMContentLoaded", function () {
       break;
     default:
       eventJson = undefined;
-      document.getElementById("submit").disabled = true;
       return;
   }
 
-  const versionNumberSpan = document.getElementById("version");
+  document.getElementById("submit").enabled = true;
+
+  const versionNumberSpan = document.getElementById("version_display");
   versionNumberSpan.textContent = `${version}:${environment}`;
 
   fetch(`data/${eventJson}`)
