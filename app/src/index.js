@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .finally(() => {
       //document.body.removeChild(loadingDiv);
     });
-})();
+});
 
 /**
  * Updates the event details on the page using the provided event data.
