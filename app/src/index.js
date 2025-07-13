@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   switch (domain) {
     case "stratford.snaform.com":
-      eventJson = "stratford-road-2025-08-11.json";
+      eventJson = "2025-08-11-stratford-road.json";
       break;
     case "westbrom.snaform.com":
-      eventJson = "west-bromwich.json";
+      eventJson = "2025-west-bromwich.json";
       break;
     case "wolves.snaform.com":
-      eventJson = "wolves.json";
+      eventJson = "2025-wolves.json";
       break;
     case "localhost":
     case "test.snaform.com":
