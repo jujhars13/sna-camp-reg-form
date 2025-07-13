@@ -57,4 +57,7 @@ argocd --insecure app get sna-camp-reg-form
 # initial sync
 argocd --insecure  app sync sna-camp-reg-form
 
+# run a test
+NODE_ENV=test node_modules/.bin/mocha src/test/over8.spec.test.js
+
 ```
