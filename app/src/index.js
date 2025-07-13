@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("loading-overlay").classList.add("visible");
 
-  fetch(`data/${eventJson}`)
+  // Fetch the event data from the JSON file
+  // use verison number to bust cache
+  fetch(`data/${eventJson}?v=${version}`)
     .then((response) => response.json())
     .then((data) => {
       eventData = data;
