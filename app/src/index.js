@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("version-display").textContent = `${version}:${environment}`;
-
   document.getElementById("loading-overlay").classList.add("visible");
 
   // Fetch the event data from the JSON file
@@ -128,6 +127,7 @@ document
     const jsonFormData = Object.fromEntries(formData.entries());
     const supabase = createClient(__supabase_url, __supabase_key);
     document.getElementById("submit").disabled = true;
+    document.getElementById("loading-overlay").classList.add("visible");
 
     supabase
       .from("snacamp")
@@ -141,12 +141,14 @@ document
       })
       .then((data) => {
         console.log("Success:", data);
+        document.getElementById("loading-overlay").classList.remove("visible");
         setTimeout(
           () => {
             window.location.href = "done.html";
           },
           Math.floor(Math.random() * 301) + 300
         );
+
       })
       .catch((error) => {
         console.error("Error:", error);
