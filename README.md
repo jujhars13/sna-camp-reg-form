@@ -31,11 +31,11 @@ npm test
 - [x] setup Supabase project
 - [x] Write unit test
 - [x] Write db Schema for application
-- [ ] build and deploy application container
+- [x] build and deploy application container
 - [x] sort out reverse proxy and DNS for deployments
 - [x] Write kustomize manifest for app
 - [x] Add ability to customise form for different events
-- [ ] Test end to end integration
+- [x] Test end to end integration
 - [ ] Write report pages for database
 - [x] Tweak and tidy form
 
