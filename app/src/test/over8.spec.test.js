@@ -67,7 +67,7 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("guardianname")).sendKeys(guardianName);
     await driver.findElement(By.id("guardiannumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
-    // some events don't have t-shirt sizes
+    // nb some events don't have t-shirt sizes
     if (process.env?.TEST_URL?.includes("stratford") || process.env?.TEST_URL?.includes("westbrom")) {
       await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     }
