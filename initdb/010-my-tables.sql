@@ -2,12 +2,6 @@ BEGIN;
 
 SET client_encoding = 'LATIN1';
 
-CREATE TABLE test (
-    id SERIAL PRIMARY KEY,
-    source text NOT NULL,
-    dateFed timestamp NOT NULL DEFAULT NOW()
-);
-
 CREATE TABLE snaCamp (
     id SERIAL PRIMARY KEY,
     firstname VARCHAR(100) NOT NULL,
@@ -25,7 +19,8 @@ CREATE TABLE snaCamp (
     allergies TEXT,
     notes TEXT,
     tshirtsize VARCHAR(10) NOT NULL,
-    yearAttendedBefore INTEGER CHECK (yearAttendedBefore >= 1900 AND yearAttendedBefore <= EXTRACT(YEAR FROM CURRENT_DATE))
+    yearAttendedBefore INTEGER CHECK (yearAttendedBefore >= 1900 AND yearAttendedBefore <= EXTRACT(YEAR FROM CURRENT_DATE)),
+    dateCreated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;

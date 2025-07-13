@@ -1,41 +1,43 @@
 import { createClient } from "@supabase/supabase-js";
 
+let version = __version;
+let environment = __environment;
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
-  environmentInput.value = __environment;
+  environmentInput.value = environment || "development";
 }
 let eventData = {};
 
 document.addEventListener("DOMContentLoaded", function () {
   // DOM is fully loaded
   const domain = window.location.hostname;
-  console.log({domain});
-  const submitButton = document.getElementById("submit");
-  let event = "default";
+  console.log({ domain, version, environment });
+  let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
     case "stratford.snaform.com":
-      event = "stratford-road-2025-08-11";
+      eventJson = "stratford-road-2025-08-11.json";
       break;
     case "westbrom.snaform.com":
-      event = "stratford-road-2025-08-11";
+      eventJson = "west-bromwich.json";
       break;
     case "wolves.snaform.com":
-      event = "stratford-road-2025-08-11";
+      eventJson = "wolves.json";
       break;
     case "localhost":
-      event = "test.json";
+    case "test.snaform.com":
+      eventJson = "test.json";
       break;
     default:
-      event = undefined;
+      eventJson = undefined;
+      document.getElementById("submit").disabled = true;
       return;
   }
 
-  const versionNumberSpan=document.getElementById('version');
-  versionNumberSpan.textContent="__version:__environment";
+  const versionNumberSpan = document.getElementById("version");
+  versionNumberSpan.textContent = `${version}:${environment}`;
 
-
-  fetch(`data/${event}.json`)
+  fetch(`data/${eventJson}`)
     .then((response) => response.json())
     .then((data) => {
       eventData = data;
@@ -53,8 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .finally(() => {
       //document.body.removeChild(loadingDiv);
     });
-
-
 })();
 
 /**
@@ -76,6 +76,16 @@ function updateEventDetails(eventData) {
   const campNameElement = document.getElementById("campname");
   if (campNameElement) {
     campNameElement.textContent = eventData.name || "unknown-from-json";
+  }
+
+  const versionInput = document.getElementById("version");
+  if (versionInput) {
+    versionInput.value = version;
+  }
+
+  const environmentInput = document.getElementById("environment");
+  if (versionInput) {
+    environmentInput.value = environment;
   }
 
   if (!eventData.tshirts) {
