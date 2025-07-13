@@ -37,8 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
   }
 
-  const versionNumberSpan = document.getElementById("version_display");
-  versionNumberSpan.textContent = `${version}:${environment}`;
+  document.getElementById("version-display").textContent = `${version}:${environment}`;
 
   document.getElementById("loading-overlay").classList.add("visible");
 

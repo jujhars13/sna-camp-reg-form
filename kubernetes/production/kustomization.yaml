@@ -11,4 +11,4 @@ resources:
 images:
   - name: sna-camp-form-frontend
     newName: ghcr.io/jujhars13/sna-camp-form
-    newTag: v1.0.4
+    newTag: v1.0.5
