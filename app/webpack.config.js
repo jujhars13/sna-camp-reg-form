@@ -2,7 +2,6 @@ require("dotenv").config();
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 const { webpack, DefinePlugin } = require("webpack");
 const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
@@ -12,8 +11,7 @@ const supabaseUrl = process.env?.SUPABASE_URL;
 const version = process.env?.VERSION;
 
 if (!supabaseKey || !supabaseUrl) {
-  console.error("supabase key or URL not found");
-  process.exit(11);
+  throw new Error("supabase key or URL not found");
 }
 
 console.log({ environment, supabaseUrl });
