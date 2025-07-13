@@ -86,7 +86,7 @@ function updateEventDetails(eventData) {
   }
   const campNameElement = document.getElementById("campname");
   if (campNameElement) {
-    campNameElement.textContent = eventData.name || "unknown-from-json";
+    campNameElement.value = eventData.name || "unknown-from-json";
   }
 
   const versionInput = document.getElementById("formversion");
