@@ -149,11 +149,11 @@ document
       })
       .catch((error) => {
         console.error("Error:", error);
-              if (
-        window.Sentry &&
-        typeof window.Sentry.captureException === "function"
-      ) {
-        window.Sentry.captureException(error);
-      }
+        if (
+          window.Sentry &&
+          typeof window.Sentry.captureException === "function"
+        ) {
+          window.Sentry.captureException(error);
+        }
       });
   });
