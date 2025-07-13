@@ -3,7 +3,7 @@ BEGIN;
 SET client_encoding = 'LATIN1';
 
 CREATE TABLE public.snacamp (
-    id integer NOT NULL,
+    id serial PRIMARY KEY,
     firstname character varying(100) NOT NULL,
     surname character varying(100) NOT NULL,
     othernames character varying(100),

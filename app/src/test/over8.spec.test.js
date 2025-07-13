@@ -64,7 +64,7 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("guardianname")).sendKeys(guardianName);
     await driver.findElement(By.id("guardiannumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
-    // await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
+    await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
     await driver.findElement(By.id("notes")).sendKeys(`{testing}`);
 
