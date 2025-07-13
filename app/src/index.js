@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 
 let version = __version;
 let environment = __environment;
+
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
   environmentInput.value = environment || "development";
@@ -39,15 +40,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const versionNumberSpan = document.getElementById("version_display");
   versionNumberSpan.textContent = `${version}:${environment}`;
 
-document.getElementById('loading-overlay').classList.add('visible');
+  document.getElementById("loading-overlay").classList.add("visible");
 
   fetch(`data/${eventJson}`)
     .then((response) => response.json())
     .then((data) => {
       eventData = data;
-      updateEventDetails(eventData);
-      document.getElementById("submit").disabled=false;
-      document.getElementById('loading-overlay').classList.remove('visible');
+      if (!updateEventDetails(eventData)) {
+        throw new Error("Failed to update event details");
+      }
+
+      // make page ready for use
+      document.getElementById("submit").disabled = false;
+      document.getElementById("loading-overlay").classList.remove("visible");
     })
     .catch((error) => {
       console.error("Error fetching event data:", error);
@@ -59,7 +64,7 @@ document.getElementById('loading-overlay').classList.add('visible');
       }
     })
     .finally(() => {
-      // dont' do anything - let's just crash
+      // dont' do anything
     });
 });
 
@@ -100,6 +105,7 @@ function updateEventDetails(eventData) {
       tshirtDiv.remove();
     }
   }
+  return true;
 }
 
 /**
@@ -127,7 +133,7 @@ document
       .insert(jsonFormData)
       .then((response) => {
         if (response?.status !== 201) {
-          console.dir(response);
+          console.error({ response });
           throw new Error("Network response was not ok", response);
         }
         return response;
@@ -143,5 +149,11 @@ document
       })
       .catch((error) => {
         console.error("Error:", error);
+              if (
+        window.Sentry &&
+        typeof window.Sentry.captureException === "function"
+      ) {
+        window.Sentry.captureException(error);
+      }
       });
   });
