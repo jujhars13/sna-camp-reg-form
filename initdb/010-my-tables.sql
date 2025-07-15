@@ -31,3 +31,6 @@ CREATE TABLE public.snacamp (
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon;
 
 COMMIT;
+
+-- enable row level security to prevent public key from accessing the table
+alter table public.snacamp enable row level security;
