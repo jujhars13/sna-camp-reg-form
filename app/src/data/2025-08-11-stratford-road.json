@@ -5,5 +5,9 @@
     "from": "2025-08-11",
     "to": "2025-08-16"
   },
+  "ageLimits": {
+    "minimum": 8,
+    "maximum": ""
+  },
   "tshirts": true
 }
