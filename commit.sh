@@ -23,7 +23,7 @@ gum confirm "Commit changes and tag branch to deploy to production?" && \
     npm version "${TYPE}" --no-git-tag-version
 
 newVersion=v$(node -p "require('./package.json').version")
-k8sVersion="v${newVersion}" yq --in-place \
+k8sVersion="${newVersion}" yq --in-place \
     --yaml-output \
      '.images[0].newTag = $ENV.k8sVersion' kubernetes/production/kustomization.yaml
 
