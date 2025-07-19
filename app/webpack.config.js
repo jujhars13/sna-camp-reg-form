@@ -22,7 +22,7 @@ module.exports = {
   mode: environment,
   output: {
     filename: "[name].[contenthash].js",
-    path: path.resolve(__dirname, "dist")
+    path: path.resolve(__dirname, "dist"),
   },
   optimization: {
     runtimeChunk: "single",
@@ -31,25 +31,25 @@ module.exports = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: "vendors",
-          chunks: "all"
-        }
-      }
-    }
+          chunks: "all",
+        },
+      },
+    },
   },
   plugins: [
     new DefinePlugin({
       __supabase_url: JSON.stringify(supabaseUrl),
       __supabase_key: JSON.stringify(supabaseKey),
       __environment: JSON.stringify(environment),
-      __version: JSON.stringify(version)
+      __version: JSON.stringify(version),
     }),
     new HtmlWebpackPlugin({
       title: "Caching",
-      template: "src/index.html"
+      template: "src/index.html",
     }),
     new HtmlWebpackPlugin({
       filename: "done.html",
-      template: "src/done.html"
+      template: "src/done.html",
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -58,15 +58,15 @@ module.exports = {
         { from: "src/data", to: path.resolve(__dirname, "dist/data") },
         {
           from: "src/favicon.ico",
-          to: path.resolve(__dirname, "dist/favicon.ico")
-        }
-      ]
+          to: path.resolve(__dirname, "dist/favicon.ico"),
+        },
+      ],
     }),
     // upload source maps to sentry
     sentryWebpackPlugin({
       org: "jujharcom",
       project: "javascript",
-      authToken: process.env?.SENTRY_AUTH_TOKEN
-    })
-  ]
+      authToken: process.env?.SENTRY_AUTH_TOKEN,
+    }),
+  ],
 };

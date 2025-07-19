@@ -10,9 +10,9 @@ chromeOptions.setUserPreferences({
   devtools: {
     preferences: {
       "panel-selectedTab": "Console",
-      currentDockState: "right"
-    }
-  }
+      currentDockState: "right",
+    },
+  },
 });
 
 (async function runTest() {
@@ -37,12 +37,12 @@ chromeOptions.setUserPreferences({
       .between({
         // 8 to 16 year olds, huck in some 6 year olds too
         from: "2010-01-01T00:00:00.000Z",
-        to: "2019-01-01T00:00:00.000Z"
+        to: "2019-01-01T00:00:00.000Z",
       })
       .toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "2-digit",
-        year: "numeric"
+        year: "numeric",
       });
     console.log({ firstname, surname, dob });
     const addressLine1 = fakerEN_GB.location.streetAddress();
@@ -68,7 +68,10 @@ chromeOptions.setUserPreferences({
     await driver.findElement(By.id("guardiannumber")).sendKeys(guardianNumber);
     await driver.findElement(By.id("email")).sendKeys(email);
     // nb some events don't have t-shirt sizes
-    if (process.env?.TEST_URL?.includes("stratford") || process.env?.TEST_URL?.includes("westbrom")) {
+    if (
+      process.env?.TEST_URL?.includes("stratford") ||
+      process.env?.TEST_URL?.includes("westbrom")
+    ) {
       await driver.findElement(By.id("tshirtsize")).sendKeys("Adults XS");
     }
     await driver.findElement(By.id("allergies")).sendKeys(allergies);
@@ -87,9 +90,9 @@ chromeOptions.setUserPreferences({
     //assert.strictEqual(alertText, "Form submitted successfully!");
     await driver.wait(
       until.elementLocated(
-        By.xpath("//h1[text()='Thank you for registering']")
+        By.xpath("//h1[text()='Thank you for registering']"),
       ),
-      5000
+      5000,
     );
     //await driver.sleep(200);
   } catch (error) {

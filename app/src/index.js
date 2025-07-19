@@ -1,14 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
-// biome-ignore lint: lint/correctsness/noUndeclaredVariables
+// biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
 const version = __version;
-// biome-ignore lint: lint/correctness/noUndeclaredVariables
+// biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
 const environment = __environment;
-// biome-ignore lint: lint/correctness/noUndeclaredVariables
+// biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
 const supabaseUrl = __supabase_url;
-// biome-ignore lint: lint/correctness/noUndeclaredVariables
+// biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
 const supabaseKey = __supabase_key;
-
 
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
@@ -97,6 +96,11 @@ function updateEventDetails(eventData) {
     campNameElement.value = eventData.name || "unknown-from-json";
   }
 
+  const dob = document.getElementById("dob");
+  if (eventData?.ageLimits?.minimum) {
+    dob.setAttribute("data-minimum-age", eventData.ageLimits.minimum);
+  }
+
   const versionInput = document.getElementById("formversion");
   if (versionInput) {
     versionInput.value = version;
@@ -121,10 +125,31 @@ function updateEventDetails(eventData) {
  */
 document
   .getElementById("registrationForm")
-  .addEventListener("submit", function (event) {
+  .addEventListener("submit", (event) => {
     event.preventDefault();
 
     const dob = document.getElementById("dob").value;
+    const minimumAge = document
+      .getElementById("dob")
+      .getAttribute("data-minimum-age");
+    if (minimumAge && dob) {
+      const dobDate = new Date(dob);
+      const today = new Date();
+      let age = today.getFullYear() - dobDate.getFullYear();
+      const monthDiff = today.getMonth() - dobDate.getMonth();
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < dobDate.getDate())
+      ) {
+        age--;
+      }
+      if (age < minimumAge) {
+        alert(
+          `Your child must be at least ${minimumAge} years old to register`,
+        );
+        return;
+      }
+    }
 
     if (new Date(dob) > new Date()) {
       alert("Please enter a valid date of birth.");
@@ -154,7 +179,7 @@ document
           () => {
             window.location.href = "done.html";
           },
-          Math.floor(Math.random() * 301) + 300
+          Math.floor(Math.random() * 301) + 300,
         );
       })
       .catch((error) => {

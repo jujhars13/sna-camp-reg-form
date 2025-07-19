@@ -8,7 +8,7 @@
     "build": "node_modules/.bin/webpack build",
     "watch": "NODE_ENV=development node_modules/.bin/webpack --watch",
     "lint": "biome check",
-    "dev": "webpack serve"
+    "dev": "SUPABASE_ANON_KEY=test SUPABASE_URL=http://example.com webpack serve"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
