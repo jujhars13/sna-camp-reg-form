@@ -23,12 +23,13 @@ gum confirm "Commit changes and tag branch to deploy to production?" && \
     npm version "${TYPE}" --no-git-tag-version
 
 newVersion=v$(node -p "require('./package.json').version")
+k8sVersion="v${newVersion}"
 yq --in-place \
     --yaml-output \
-     '.images[0].newTag = $ENV.newVersion' kubernetes/production/kustomization.yaml
+     '.images[0].newTag = $ENV.k8sVersion' kubernetes/production/kustomization.yaml
 
 git commit -a --message \""$SUMMARY"\"
-git tag -a "v${newVersion}" -m "Release v${newVersion}"
+git tag -a "${newVersion}" -m "Release ${newVersion}"
 
 git push
 git push --tags
