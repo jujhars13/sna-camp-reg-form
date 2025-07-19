@@ -152,12 +152,13 @@ document
     }
 
     if (new Date(dob) > new Date()) {
-      alert("Please enter a valid date of birth.");
+      alert("Please enter a valid date of birth");
       return;
     }
 
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
+    console.log("Form Data:", jsonFormData);
     const supabase = createClient(supabaseUrl, supabaseKey);
     document.getElementById("submit").disabled = true;
     document.getElementById("loading-overlay").classList.add("visible");

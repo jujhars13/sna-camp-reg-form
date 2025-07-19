@@ -20,6 +20,7 @@ chromeOptions.setUserPreferences({
   let driverBuilder = new Builder().forBrowser("chrome");
   driverBuilder.setChromeOptions(chromeOptions);
   let driver = await driverBuilder.build();
+  // await driver.sleep(1000);
 
   try {
     // Navigate to the form page (adjust the URL to where your form is served)
