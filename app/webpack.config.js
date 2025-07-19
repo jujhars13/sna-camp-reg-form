@@ -2,7 +2,7 @@ require("dotenv").config();
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { webpack, DefinePlugin } = require("webpack");
+const { DefinePlugin } = require("webpack");
 const { sentryWebpackPlugin } = require("@sentry/webpack-plugin");
 
 const environment = process.env?.NODE_ENV || "development";

@@ -16,10 +16,19 @@ SUMMARY=$(gum write --placeholder "Your commit message (CTRL+D to finish)")
 test -z "${SUMMARY}" && echo >&2 "\commit message not supplied" && exit 4
 
 git add .
-git commit -a --message \""$SUMMARY"\"
 
 # Commit these changes and tag the branch with the semver
+# also update the container version in the kustomization.yaml file
 gum confirm "Commit changes and tag branch to deploy to production?" && \
-    npm version "${TYPE}" --message \""$SUMMARY"\" && \
-    git push && \
-    git push --tags
+    npm version "${TYPE}" --no-git-tag-version
+
+newVersion=v$(node -p "require('./package.json').version")
+yq --in-place \
+    --yaml-output \
+     '.images[0].newTag = $ENV.newVersion' kubernetes/production/kustomization.yaml
+
+git commit -a --message \""$SUMMARY"\"
+git tag -a "v${newVersion}" -m "Release v${newVersion}"
+
+git push
+git push --tags

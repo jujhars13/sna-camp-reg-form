@@ -1,7 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
 
-let version = __version;
-let environment = __environment;
+// biome-ignore lint: correctness/noUndeclaredVariables
+const version = __version;
+// biome-ignore lint: correctness/noUndeclaredVariables
+const environment = __environment;
+// biome-ignore lint: correctness/noUndeclaredVariables
+const supabaseUrl = __supabase_url;
+// biome-ignore lint: correctness/noUndeclaredVariables
+const supabaseKey = __supabase_key;
+
 
 const environmentInput = document.getElementById("environment");
 if (environmentInput) {
@@ -37,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
   }
 
-  document.getElementById("version-display").textContent = `${version}:${environment}`;
+  document.getElementById("version-display").textContent =
+    `${version}:${environment}`;
   document.getElementById("loading-overlay").classList.add("visible");
 
   // Fetch the event data from the JSON file
@@ -125,7 +133,7 @@ document
 
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
-    const supabase = createClient(__supabase_url, __supabase_key);
+    const supabase = createClient(supabaseUrl, supabaseKey);
     document.getElementById("submit").disabled = true;
     document.getElementById("loading-overlay").classList.add("visible");
 
@@ -148,7 +156,6 @@ document
           },
           Math.floor(Math.random() * 301) + 300
         );
-
       })
       .catch((error) => {
         console.error("Error:", error);

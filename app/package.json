@@ -7,14 +7,15 @@
     "test": "NODE_ENV=test mocha './{,!(node_modules)/**}/*.test.js'",
     "build": "node_modules/.bin/webpack build",
     "watch": "NODE_ENV=development node_modules/.bin/webpack --watch",
-    "lint": "eslint src",
+    "lint": "biome check",
     "dev": "webpack serve"
   },
-    "dependencies": {
+  "dependencies": {
     "@picocss/pico": "^2.1.1",
     "@supabase/supabase-js": "^2.50.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.1.2",
     "@eslint/js": "^9.9.0",
     "@faker-js/faker": "^8.4.1",
     "@sentry/webpack-plugin": "^2.22.2",
@@ -23,11 +24,9 @@
     "chromedriver": "^138.0.2",
     "copy-webpack-plugin": "^12.0.2",
     "dotenv-webpack": "^8.1.0",
-    "eslint": "^9.6.0",
     "globals": "^15.8.0",
     "html-webpack-plugin": "^5.6.0",
     "mocha": "^11.0.1",
-    "prettier": "^3.3.2",
     "selenium-webdriver": "^4.34.0",
     "webpack": "^5.100.1",
     "webpack-cli": "^6.0.1",
