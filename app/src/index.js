@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-// biome-ignore lint: correctness/noUndeclaredVariables
+// biome-ignore lint: lint/correctsness/noUndeclaredVariables
 const version = __version;
-// biome-ignore lint: correctness/noUndeclaredVariables
+// biome-ignore lint: lint/correctness/noUndeclaredVariables
 const environment = __environment;
-// biome-ignore lint: correctness/noUndeclaredVariables
+// biome-ignore lint: lint/correctness/noUndeclaredVariables
 const supabaseUrl = __supabase_url;
-// biome-ignore lint: correctness/noUndeclaredVariables
+// biome-ignore lint: lint/correctness/noUndeclaredVariables
 const supabaseKey = __supabase_key;
 
 

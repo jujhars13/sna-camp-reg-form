@@ -3,7 +3,7 @@
 	"vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
 	"files": {
 		"ignoreUnknown": true,
-		"includes": ["!app/src/css/pico.min.css"]
+		"includes": ["**", "!**/node_modules", "!src/css/pico.min.css"]
 	},
 	"formatter": { "enabled": true, "indentStyle": "tab" },
 	"linter": {
