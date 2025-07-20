@@ -159,6 +159,7 @@ document
 
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
+    console.log({jsonFormData});
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     document.getElementById("submit").disabled = true;
@@ -170,7 +171,7 @@ document
       .then((response) => {
         if (response?.status !== 201) {
           console.error({ response });
-          throw new Error("Network response was not ok", response);
+          throw new Error("Supabase response was not ok", response);
         }
         return response;
       })
@@ -185,7 +186,7 @@ document
         );
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Supbabase submission Error:", error);
         if (
           window.Sentry &&
           typeof window.Sentry.captureException === "function"
