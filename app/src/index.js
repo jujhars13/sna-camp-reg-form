@@ -22,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
+    case "oldbury.snaform.com":
+      eventJson = "2025-08-25-oldbury.json";
+      break;
     case "stratford.snaform.com":
       eventJson = "2025-08-11-stratford-road.json";
       break;
@@ -30,9 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
     case "wolves.snaform.com":
       eventJson = "2025-08-18-wolves.json";
-      break;
-    case "oldbury.snaform.com":
-      eventJson = "2025-08-25-oldbury.json";
       break;
     case "localhost":
     case "test.snaform.com":
@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("version-display").textContent =
     `${version}:${environment}`;
+
   document.getElementById("loading-overlay").classList.add("visible");
 
   // Fetch the event data from the JSON file
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("loading-overlay").classList.remove("visible");
     })
     .catch((error) => {
-      console.error("Error fetching event data:", error);
+      console.error("Error fetching/rendering event data:", error);
       if (
         window.Sentry &&
         typeof window.Sentry.captureException === "function"
@@ -145,7 +146,7 @@ document
       }
       if (age < minimumAge) {
         alert(
-          `Your child must be at least ${minimumAge} years old to register`,
+          `Your child must be at least ${minimumAge} years old to register`
         );
         return;
       }
@@ -158,7 +159,7 @@ document
 
     const formData = new FormData(this);
     const jsonFormData = Object.fromEntries(formData.entries());
-    console.log("Form Data:", jsonFormData);
+
     const supabase = createClient(supabaseUrl, supabaseKey);
     document.getElementById("submit").disabled = true;
     document.getElementById("loading-overlay").classList.add("visible");
@@ -180,7 +181,7 @@ document
           () => {
             window.location.href = "done.html";
           },
-          Math.floor(Math.random() * 301) + 300,
+          Math.floor(Math.random() * 301) + 300
         );
       })
       .catch((error) => {
