@@ -157,9 +157,9 @@ document
       return;
     }
 
-    const formData = new FormData(this);
+    const formData = new FormData(event.target);
     const jsonFormData = Object.fromEntries(formData.entries());
-    console.log({jsonFormData});
+    // console.log({jsonFormData});
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     document.getElementById("submit").disabled = true;
