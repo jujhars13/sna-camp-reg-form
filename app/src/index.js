@@ -157,13 +157,20 @@ document
       return;
     }
 
+    // validation passed, proceed with form submission
     const formData = new FormData(event.target);
     const jsonFormData = Object.fromEntries(formData.entries());
-    // console.log({jsonFormData});
 
     const supabase = createClient(supabaseUrl, supabaseKey);
-    document.getElementById("submit").disabled = true;
-    document.getElementById("loading-overlay").classList.add("visible");
+    const submitButton = document.getElementById("submit");
+    if (submitButton) {
+      submitButton.textContent = "Submitting...";
+      submitButton.disabled = true;
+    }
+    const loadingOverlay = document.getElementById("loading-overlay");
+    if (loadingOverlay) {
+      loadingOverlay.classList.add("visible");
+    }
 
     supabase
       .from("snacamp")
