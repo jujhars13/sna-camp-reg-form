@@ -57,7 +57,7 @@ argocd --insecure app create sna-camp-form --repo git@github.com:jujhars13/sna-c
 argocd --insecure app get sna-camp-form
 
 # initial sync
-argocd --insecure  app sync sna-camp-form
+argocd --insecure app sync sna-camp-form
 
 # run a test
 NODE_ENV=test node_modules/.bin/mocha src/test/over8.spec.test.js
