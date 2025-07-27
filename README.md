@@ -52,7 +52,7 @@ kubectl create ns sna-camp-form
 
 argocd repo add git@github.com:jujhars13/sna-camp-reg-form.git --ssh-private-key-path ~/.ssh/github/id_rsa
 
-argocd --insecure app create sna-camp-form --repo git@github.com:jujhars13/sna-camp-reg-form.git --path kubernetes --dest-server https://kubernetes.default.svc --dest-namespace sna-camp-form
+argocd --insecure app create sna-camp-form --repo git@github.com:jujhars13/sna-camp-reg-form.git --path kubernetes/production --dest-server https://kubernetes.default.svc --dest-namespace sna-camp-form
 
 argocd --insecure app get sna-camp-form
 
