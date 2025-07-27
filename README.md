@@ -48,16 +48,20 @@ npm test
 
 kubectl config set-context --current --namespace=argocd
 
-kubectl create ns sna-camp-form
+kubectl create ns sna-camp-reg-form
 
 argocd repo add git@github.com:jujhars13/sna-camp-reg-form.git --ssh-private-key-path ~/.ssh/github/id_rsa
 
-argocd --insecure app create sna-camp-form --repo git@github.com:jujhars13/sna-camp-reg-form.git --path kubernetes/production --dest-server https://kubernetes.default.svc --dest-namespace sna-camp-form
+argocd --insecure app create sna-camp-reg-form \
+  --repo git@github.com:jujhars13/sna-camp-reg-form.git \
+  --path kubernetes/production \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace sna-camp-reg-form
 
-argocd --insecure app get sna-camp-form
+argocd --insecure app get sna-camp-reg-form
 
 # initial sync
-argocd --insecure app sync sna-camp-form
+argocd --insecure app sync sna-camp-reg-form
 
 # run a test
 NODE_ENV=test node_modules/.bin/mocha src/test/over8.spec.test.js
