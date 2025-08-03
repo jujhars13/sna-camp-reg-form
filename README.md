@@ -11,14 +11,14 @@ Using Metabase for reports
 ### Client
 
 ```bash
-(cd form && npm run dev)
+(cd app && npm run dev)
 ```
 
 ## Testing with Selenium
 
 ```bash
 
-cd form
+cd app
 
 npm i
 

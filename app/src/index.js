@@ -112,6 +112,22 @@ function updateEventDetails(eventData) {
     environmentInput.value = environment;
   }
 
+  const eventDateElement = document.getElementById("eventDate");
+  if (eventDateElement) {
+    const eventDateFrom = new Date(eventData?.date?.from);
+    const eventDateTo = new Date(eventData?.date?.to);
+    if (eventDateFrom) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      eventDateElement.textContent = `${eventDateFrom.toLocaleDateString(
+        "en-GB",
+        options
+      )} - ${eventDateTo.toLocaleDateString(
+        "en-GB",
+        options
+      )}`;
+    }eventData.eventDate
+  }
+
   if (!eventData.tshirts) {
     const tshirtDiv = document.getElementById("div-tshirt-size");
     if (tshirtDiv) {
