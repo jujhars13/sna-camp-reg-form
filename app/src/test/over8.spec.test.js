@@ -15,7 +15,7 @@ chromeOptions.setUserPreferences({
   }
 });
 
-const testUrl = process.env?.TEST_URL || "https://stratford.snaform.com/";
+const testUrl = process.env?.TEST_URL || "https://oldbury.snaform.com/";
 (async function runTest() {
   // Initialize WebDriver and navigate to the form page
   let driverBuilder = new Builder().forBrowser("chrome");
