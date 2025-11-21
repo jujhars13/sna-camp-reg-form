@@ -60,7 +60,7 @@ argocd --insecure app create sna-camp-form \
 
 argocd --insecure app get sna-camp-form
 
-# initial sync s
+# initial sync
 argocd --insecure app sync sna-camp-form
 
 # run a test
