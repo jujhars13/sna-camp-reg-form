@@ -11,5 +11,6 @@ labels:
 resources:
   - namespace.yaml
   - frontend.yaml
+  - blank.yaml
   - ingress.yaml
   - sa.yaml
