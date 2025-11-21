@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   switch (domain) {
     case "oldbury.snaform.com":
-      eventJson = "2025-08-25-oldbury.json";
+      eventJson = "2025-12-20-oldbury.json";
       break;
     case "stratford.snaform.com":
       eventJson = "2025-08-11-stratford-road.json";
