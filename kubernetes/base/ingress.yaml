@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: blank
+                name: frontend
                 port:
                   number: 80
     - host: wolves.snaform.com
@@ -36,7 +36,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: blank
+                name: frontend
                 port:
                   number: 80
     - host: oldbury.snaform.com
@@ -46,7 +46,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: blank
                 port:
                   number: 80
     # - host: test.snaform.com
