@@ -1,7 +1,7 @@
 {
   "name": "sna-web-form",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "webpack.config.js",
   "scripts": {
     "test": "NODE_ENV=test mocha './{,!(node_modules)/**}/*.test.js'",

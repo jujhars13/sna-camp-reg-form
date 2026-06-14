@@ -1,0 +1,13 @@
+{
+  "name": "stratford-road-2026-08-10",
+  "humanName": "Stratford Road 2026",
+  "date": {
+    "from": "2026-08-10",
+    "to": "2026-08-14"
+  },
+  "ageLimits": {
+    "minimum": 6,
+    "maximum": ""
+  },
+  "tshirts": false
+}

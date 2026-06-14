@@ -1,0 +1,13 @@
+{
+  "name": "west-bromwich-2026-07-20",
+  "humanName": "West Bromwich 2026",
+  "date": {
+    "from": "2026-07-20",
+    "to": "2026-07-24"
+  },
+  "ageLimits": {
+    "minimum": 8,
+    "maximum": ""
+  },
+  "tshirts": false
+}

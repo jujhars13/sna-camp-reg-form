@@ -1,9 +1,9 @@
 {
-  "name": "test-2025-08-11",
-  "humanName": "TEST EVENT 2025",
+  "name": "test-2026-08-11",
+  "humanName": "TEST EVENT 2026",
   "date": {
-    "from": "2025-01-11",
-    "to": "2025-01-16"
+    "from": "2026-01-11",
+    "to": "2026-01-16"
   },
   "ageLimits": {
     "minimum": 8,

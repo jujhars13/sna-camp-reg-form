@@ -22,18 +22,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
-    case "oldbury.snaform.com":
-      eventJson = "2025-12-20-oldbury.json";
-      break;
     case "stratford.snaform.com":
-      eventJson = "2025-08-11-stratford-road.json";
+      eventJson = "2026-08-10-stratford-road.json";
       break;
-    case "westbrom.snaform.com":
-      eventJson = "2025-08-04-west-bromwich.json";
-      break;
+      case "westbrom.snaform.com":
+        eventJson = "2026-07-20-west-bromwich.json";
+        break;
+    case "oldbury.snaform.com":
     case "wolves.snaform.com":
-      eventJson = "2025-08-18-wolves.json";
-      break;
     case "localhost":
     case "test.snaform.com":
       eventJson = "test.json";
