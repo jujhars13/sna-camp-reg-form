@@ -5,7 +5,7 @@
 
 # (which gum > /dev/null) || echo >&2 "fum not installed, please install fum to use this script"; exit 12
 
-yq() {
+yqg() {
   docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
 }
 
@@ -27,7 +27,7 @@ gum confirm "Commit changes and tag branch to deploy to production?" && \
     npm version "${TYPE}" --no-git-tag-version
 
 newVersion=v$(node -p "require('./package.json').version")
-k8sVersion="${newVersion}" yq --in-place \
+k8sVersion="${newVersion}" yqg --in-place \
     --yaml-output \
      '.images[0].newTag = $ENV.k8sVersion' kubernetes/production/kustomization.yaml
 
