@@ -5,6 +5,10 @@
 
 # (which gum > /dev/null) || echo >&2 "fum not installed, please install fum to use this script"; exit 12
 
+yq() {
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq "$@"
+}
+
 echo "Current version is $(node -p "require('./package.json').version")"
 TYPE=$(gum choose \
     --header "What type of commit is this? Semver type?" \
