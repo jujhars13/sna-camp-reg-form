@@ -9,5 +9,6 @@
     "minimum": 8,
     "maximum": ""
   },
-  "tshirts": true
+  "tshirts": true,
+  "bgcolour": "#e3f0f7"
 }

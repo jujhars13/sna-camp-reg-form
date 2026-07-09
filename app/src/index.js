@@ -85,6 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 function updateEventDetails(eventData) {
   const humanNameElement = document.getElementById("humanName");
+
+  document.body.style.backgroundColor = eventData?.bgcolour || "#f0f0f0";
+
   if (humanNameElement) {
     humanNameElement.textContent = eventData.humanName || "Event Name";
   }
