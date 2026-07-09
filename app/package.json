@@ -18,7 +18,7 @@
     "@biomejs/biome": "2.1.2",
     "@eslint/js": "^9.9.0",
     "@faker-js/faker": "^8.4.1",
-    "@sentry/webpack-plugin": "^2.22.2",
+    "@sentry/webpack-plugin": "^5.3.0",
     "@types/node": "^20.14.12",
     "@types/selenium-webdriver": "^4.1.28",
     "chromedriver": "^138.0.2",
@@ -30,6 +30,6 @@
     "selenium-webdriver": "^4.34.0",
     "webpack": "^5.100.1",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^6.0.0"
   }
 }
