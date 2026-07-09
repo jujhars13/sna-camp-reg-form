@@ -1,0 +1,20 @@
+networks:
+  default:
+    name: ingress-proxy
+    external: true
+
+x-common-labels: &common-labels
+  com.centurylinklabs.watchtower.enable: true
+  com.jujhar.project: "sna-camp-form"
+  org.opencontainers.image.vendor: "com.jujhar"
+  org.opencontainers.image.authors: "jujhar@jujhar.com"
+
+services:
+  frontend:
+    container_name: sna-camp-form
+    image: ghcr.io/jujhars13/sna-camp-form:latest
+    restart: unless-stopped
+    networks:
+      - default
+    labels:
+      <<: *common-labels
