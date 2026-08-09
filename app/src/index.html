@@ -65,7 +65,18 @@
 
     <div class="field-group">
       <label for="dob">Child's Date of Birth*</label>
-      <input id="dob" name="dob" type="date" required />
+      <input
+        id="dob"
+        name="dob"
+        type="text"
+        inputmode="numeric"
+        autocomplete="bday"
+        placeholder="dd/mm/yyyy"
+        maxlength="10"
+        pattern="\d{2}/\d{2}/\d{4}"
+        title="Please enter the date as dd/mm/yyyy"
+        required
+      />
     </div>
 
     <div class="field-group">

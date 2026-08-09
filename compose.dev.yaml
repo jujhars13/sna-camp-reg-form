@@ -1,0 +1,47 @@
+# Local development stack. Unlike compose.yaml (which runs the published nginx
+# image on the shared ingress-proxy network) this builds from source and serves
+# the form through webpack-dev-server with live reload.
+#
+#   docker compose -f compose.dev.yaml watch
+#
+# Then open http://localhost:8080 — the app keys its event config off the
+# hostname, and "localhost" maps to src/data/test.json.
+
+services:
+  frontend:
+    container_name: sna-camp-form-dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+      # webpack.config.js throws if these are unset, so fall back to dummies.
+      # Put real values in .env (see .env.template) to exercise submissions.
+      SUPABASE_URL: ${SUPABASE_URL:-http://example.com}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-test}
+      SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN:-}
+      VERSION: ${VERSION:-dev}
+    develop:
+      watch:
+        # App source: copy straight into the running container and let
+        # webpack-dev-server rebuild the bundle in memory.
+        - action: sync
+          path: ./app/src
+          target: /app/src
+          ignore:
+            - node_modules/
+        # Build config changes need the dev server process restarted.
+        - action: sync+restart
+          path: ./app/webpack.config.js
+          target: /app/webpack.config.js
+        # Dependency changes need a full image rebuild.
+        - action: rebuild
+          path: ./app/package.json
+        - action: rebuild
+          path: ./app/package-lock.json
+        - action: rebuild
+          path: ./Dockerfile

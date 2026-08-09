@@ -20,6 +20,23 @@ ENV VERSION=${VERSION}
 
 RUN npm run build
 
+# Dev stage: deps only, no bundle. Used by compose.dev.yaml, which mounts the
+# source in via compose watch and runs webpack-dev-server.
+# Must stay above the final stage so a plain `docker build .` still targets nginx.
+FROM node:24-bookworm-slim AS dev
+
+WORKDIR /app
+
+COPY ./app/package.json ./app/package-lock.json ./
+
+RUN npm install
+
+COPY ./app .
+
+EXPOSE 8080/tcp
+
+CMD ["npx", "webpack", "serve", "--host", "0.0.0.0", "--port", "8080"]
+
 FROM nginx:alpine
 
 WORKDIR /app

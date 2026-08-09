@@ -1,0 +1,44 @@
+# Build context is the repo root, but the Dockerfile only ever copies ./app.
+# Everything excluded here just makes the context smaller and the layer cache
+# more stable.
+
+# Deps and build output: installed/generated inside the image. Copying the host
+# copies in would clobber `npm install` and bust the cache on every local build.
+node_modules
+**/node_modules
+dist
+**/dist
+
+# Secrets — never bake these into a layer. Build-time config comes in via ARG.
+.env
+.env.*
+!.env.template
+
+# VCS and editor state
+.git
+.gitignore
+.github
+.history
+.vscode
+.idea
+.DS_Store
+*.local
+
+# Logs
+*.log
+*.log.*
+
+# Not part of the frontend build
+_scratch
+initdb
+kubernetes
+compose.yaml
+compose.dev.yaml
+Dockerfile
+.dockerignore
+README.md
+commit.sh
+package.json
+package-lock.json
+.editorconfig
+.prettierrc

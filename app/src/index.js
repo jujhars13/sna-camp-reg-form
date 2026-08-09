@@ -15,6 +15,36 @@ if (environmentInput) {
 }
 let eventData = {};
 
+/**
+ * Parses a UK formatted date string (dd/mm/yyyy) into a Date.
+ * Returns null if the string is not a real calendar date.
+ */
+function parseUkDate(value) {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec((value || "").trim());
+  if (!match) {
+    return null;
+  }
+  const [, day, month, year] = match.map(Number);
+  const date = new Date(year, month - 1, day);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+  return date;
+}
+
+/**
+ * Converts a Date into the ISO yyyy-mm-dd string the database expects.
+ */
+function toIsoDate(date) {
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  return `${date.getFullYear()}-${month}-${day}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // DOM is fully loaded
   const domain = window.location.hostname;
@@ -148,8 +178,12 @@ document
     const minimumAge = document
       .getElementById("dob")
       .getAttribute("data-minimum-age");
-    if (minimumAge && dob) {
-      const dobDate = new Date(dob);
+    const dobDate = parseUkDate(dob);
+    if (!dobDate) {
+      alert("Please enter the date of birth as dd/mm/yyyy");
+      return;
+    }
+    if (minimumAge) {
       const today = new Date();
       let age = today.getFullYear() - dobDate.getFullYear();
       const monthDiff = today.getMonth() - dobDate.getMonth();
@@ -167,7 +201,7 @@ document
       }
     }
 
-    if (new Date(dob) > new Date()) {
+    if (dobDate > new Date()) {
       alert("Please enter a valid date of birth");
       return;
     }
@@ -175,6 +209,8 @@ document
     // validation passed, proceed with form submission
     const formData = new FormData(event.target);
     const jsonFormData = Object.fromEntries(formData.entries());
+    // the field is entered as dd/mm/yyyy but stored as yyyy-mm-dd
+    jsonFormData.dob = toIsoDate(dobDate);
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     const submitButton = document.getElementById("submit");
