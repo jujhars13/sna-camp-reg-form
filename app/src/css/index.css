@@ -1,8 +1,13 @@
 .error {
-  color: #ff0000;
+  color: #d32f2f;
   font-size: 1.4rem;
   font-weight: 500;
   margin-top: 1rem;
+}
+
+/* pure red sits at ~2.5:1 on a dark background, so lift it */
+[data-theme="dark"] .error {
+  color: #ff8a80;
 }
 
 #loading-overlay {
