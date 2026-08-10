@@ -45,6 +45,45 @@ function parseUkDate(value) {
 }
 
 /**
+ * Types the separators into the date of birth field so the parent never has to.
+ *
+ * Neither the Android nor the iOS numeric keypad has a "/" key, so the field
+ * takes digits only (ddmmyyyy) and the slashes are inserted as they go. Typing
+ * 10082015 shows 10/08/2015. Pasting a date that already has separators still
+ * works — the digits are pulled out and re-formatted.
+ */
+function formatDobAsTyped(input) {
+  // done.html shares this bundle and has no date of birth field
+  if (!input) {
+    return;
+  }
+  input.addEventListener("input", (event) => {
+    // don't fight the caret when someone is correcting the middle of the value
+    if (input.selectionStart !== input.value.length) {
+      return;
+    }
+    const inputType = event.inputType;
+    // Only reflow digits the parent just typed. A pasted or autofilled
+    // "1-8-2015" must be left for parseUkDate — re-slicing its digits
+    // positionally would turn it into 18/20/15.
+    const typedDigit =
+      inputType === undefined
+        ? /^\d+$/.test(input.value)
+        : inputType === "insertText" && /^\d$/.test(event.data || "");
+    if (typedDigit) {
+      const digits = input.value.replace(/\D/g, "").slice(0, 8);
+      const parts = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)];
+      input.value = parts.filter((part) => part !== "").join("/");
+      return;
+    }
+    // deleting back through a separator shouldn't leave it dangling
+    if (inputType?.startsWith("delete") && input.value.endsWith("/")) {
+      input.value = input.value.slice(0, -1);
+    }
+  });
+}
+
+/**
  * Converts a Date into the ISO yyyy-mm-dd string the database expects.
  */
 function toIsoDate(date) {
@@ -224,6 +263,8 @@ function updateEventDetails(eventData) {
   }
   return true;
 }
+
+formatDobAsTyped(document.getElementById("dob"));
 
 /**
  * Handle form submission

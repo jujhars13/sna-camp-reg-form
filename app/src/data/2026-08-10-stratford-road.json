@@ -6,7 +6,7 @@
     "to": "2026-08-14"
   },
   "ageLimits": {
-    "minimum": 6,
+    "minimum": 4,
     "maximum": ""
   },
   "tshirts": false,

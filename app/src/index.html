@@ -65,18 +65,20 @@
 
     <div class="field-group">
       <label for="dob">Child's Date of Birth*</label>
-      <!-- No inputmode: the iOS numeric keypad has no "/" key, so the
-           separator can't be typed. No pattern either — the format is a hint,
-           not a gate; index.js parses what's entered. -->
+      <!-- Digits only: no Android or iOS numeric keypad has a "/" key, so
+           index.js inserts the separators as they type. No pattern attribute —
+           the format is a hint, not a gate. -->
       <input
         id="dob"
         name="dob"
         type="text"
+        inputmode="numeric"
         autocomplete="bday"
         placeholder="dd/mm/yyyy"
         maxlength="10"
         required
       />
+      <small>Type the numbers only, e.g. 10082015 for 10 August 2015</small>
     </div>
 
     <div class="field-group">
