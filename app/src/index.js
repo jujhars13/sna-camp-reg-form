@@ -16,15 +16,23 @@ if (environmentInput) {
 let eventData = {};
 
 /**
- * Parses a UK formatted date string (dd/mm/yyyy) into a Date.
- * Returns null if the string is not a real calendar date.
+ * Parses a day-first date into a Date, day-month-year order throughout.
+ *
+ * Deliberately lenient: phone keyboards make the separator awkward, so accept
+ * single-digit day/month, / - . or space separators, and no separator at all.
+ * Returns null if the string isn't a real calendar date — callers treat that as
+ * "can't check this", not as a reason to block the submission.
  */
 function parseUkDate(value) {
-  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec((value || "").trim());
+  const match = /^(\d{1,2})[/\-. ]?(\d{1,2})[/\-. ]?(\d{2}|\d{4})$/.exec(
+    (value || "").trim()
+  );
   if (!match) {
     return null;
   }
-  const [, day, month, year] = match.map(Number);
+  const [, day, month, shortYear] = match.map(Number);
+  // "15" means 2015 — this form is for children, so there are no 19xx births
+  const year = match[3].length === 2 ? 2000 + shortYear : shortYear;
   const date = new Date(year, month - 1, day);
   if (
     date.getFullYear() !== year ||
@@ -230,11 +238,7 @@ document
       .getElementById("dob")
       .getAttribute("data-minimum-age");
     const dobDate = parseUkDate(dob);
-    if (!dobDate) {
-      alert("Please enter the date of birth as dd/mm/yyyy");
-      return;
-    }
-    if (minimumAge) {
+    if (minimumAge && dobDate) {
       const today = new Date();
       let age = today.getFullYear() - dobDate.getFullYear();
       const monthDiff = today.getMonth() - dobDate.getMonth();
@@ -252,7 +256,7 @@ document
       }
     }
 
-    if (dobDate > new Date()) {
+    if (dobDate && dobDate > new Date()) {
       alert("Please enter a valid date of birth");
       return;
     }
@@ -260,8 +264,11 @@ document
     // validation passed, proceed with form submission
     const formData = new FormData(event.target);
     const jsonFormData = Object.fromEntries(formData.entries());
-    // the field is entered as dd/mm/yyyy but stored as yyyy-mm-dd
-    jsonFormData.dob = toIsoDate(dobDate);
+    // entered day-first but stored as yyyy-mm-dd. If it couldn't be parsed the
+    // raw text goes through as typed rather than blocking the parent.
+    if (dobDate) {
+      jsonFormData.dob = toIsoDate(dobDate);
+    }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     const submitButton = document.getElementById("submit");

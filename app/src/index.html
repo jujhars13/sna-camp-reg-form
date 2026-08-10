@@ -65,16 +65,16 @@
 
     <div class="field-group">
       <label for="dob">Child's Date of Birth*</label>
+      <!-- No inputmode: the iOS numeric keypad has no "/" key, so the
+           separator can't be typed. No pattern either — the format is a hint,
+           not a gate; index.js parses what's entered. -->
       <input
         id="dob"
         name="dob"
         type="text"
-        inputmode="numeric"
         autocomplete="bday"
         placeholder="dd/mm/yyyy"
         maxlength="10"
-        pattern="\d{2}/\d{2}/\d{4}"
-        title="Please enter the date as dd/mm/yyyy"
         required
       />
     </div>
