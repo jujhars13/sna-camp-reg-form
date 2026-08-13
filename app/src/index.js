@@ -16,83 +16,6 @@ if (environmentInput) {
 let eventData = {};
 
 /**
- * Parses a day-first date into a Date, day-month-year order throughout.
- *
- * Deliberately lenient: phone keyboards make the separator awkward, so accept
- * single-digit day/month, / - . or space separators, and no separator at all.
- * Returns null if the string isn't a real calendar date — callers treat that as
- * "can't check this", not as a reason to block the submission.
- */
-function parseUkDate(value) {
-  const match = /^(\d{1,2})[/\-. ]?(\d{1,2})[/\-. ]?(\d{2}|\d{4})$/.exec(
-    (value || "").trim()
-  );
-  if (!match) {
-    return null;
-  }
-  const [, day, month, shortYear] = match.map(Number);
-  // "15" means 2015 — this form is for children, so there are no 19xx births
-  const year = match[3].length === 2 ? 2000 + shortYear : shortYear;
-  const date = new Date(year, month - 1, day);
-  if (
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
-  ) {
-    return null;
-  }
-  return date;
-}
-
-/**
- * Types the separators into the date of birth field so the parent never has to.
- *
- * Neither the Android nor the iOS numeric keypad has a "/" key, so the field
- * takes digits only (ddmmyyyy) and the slashes are inserted as they go. Typing
- * 10082015 shows 10/08/2015. Pasting a date that already has separators still
- * works — the digits are pulled out and re-formatted.
- */
-function formatDobAsTyped(input) {
-  // done.html shares this bundle and has no date of birth field
-  if (!input) {
-    return;
-  }
-  input.addEventListener("input", (event) => {
-    // don't fight the caret when someone is correcting the middle of the value
-    if (input.selectionStart !== input.value.length) {
-      return;
-    }
-    const inputType = event.inputType;
-    // Only reflow digits the parent just typed. A pasted or autofilled
-    // "1-8-2015" must be left for parseUkDate — re-slicing its digits
-    // positionally would turn it into 18/20/15.
-    const typedDigit =
-      inputType === undefined
-        ? /^\d+$/.test(input.value)
-        : inputType === "insertText" && /^\d$/.test(event.data || "");
-    if (typedDigit) {
-      const digits = input.value.replace(/\D/g, "").slice(0, 8);
-      const parts = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)];
-      input.value = parts.filter((part) => part !== "").join("/");
-      return;
-    }
-    // deleting back through a separator shouldn't leave it dangling
-    if (inputType?.startsWith("delete") && input.value.endsWith("/")) {
-      input.value = input.value.slice(0, -1);
-    }
-  });
-}
-
-/**
- * Converts a Date into the ISO yyyy-mm-dd string the database expects.
- */
-function toIsoDate(date) {
-  const month = `${date.getMonth() + 1}`.padStart(2, "0");
-  const day = `${date.getDate()}`.padStart(2, "0");
-  return `${date.getFullYear()}-${month}-${day}`;
-}
-
-/**
  * WCAG relative luminance of a #rgb or #rrggbb colour, 0 (black) to 1 (white).
  * Returns null if the colour can't be parsed.
  */
@@ -264,8 +187,6 @@ function updateEventDetails(eventData) {
   return true;
 }
 
-formatDobAsTyped(document.getElementById("dob"));
-
 /**
  * Handle form submission
  */
@@ -278,8 +199,8 @@ document
     const minimumAge = document
       .getElementById("dob")
       .getAttribute("data-minimum-age");
-    const dobDate = parseUkDate(dob);
-    if (minimumAge && dobDate) {
+    if (minimumAge && dob) {
+      const dobDate = new Date(dob);
       const today = new Date();
       let age = today.getFullYear() - dobDate.getFullYear();
       const monthDiff = today.getMonth() - dobDate.getMonth();
@@ -297,7 +218,7 @@ document
       }
     }
 
-    if (dobDate && dobDate > new Date()) {
+    if (new Date(dob) > new Date()) {
       alert("Please enter a valid date of birth");
       return;
     }
@@ -305,11 +226,6 @@ document
     // validation passed, proceed with form submission
     const formData = new FormData(event.target);
     const jsonFormData = Object.fromEntries(formData.entries());
-    // entered day-first but stored as yyyy-mm-dd. If it couldn't be parsed the
-    // raw text goes through as typed rather than blocking the parent.
-    if (dobDate) {
-      jsonFormData.dob = toIsoDate(dobDate);
-    }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
     const submitButton = document.getElementById("submit");
