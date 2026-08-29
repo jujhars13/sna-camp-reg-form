@@ -1,3 +1,4 @@
+return false;
 import { createClient } from "@supabase/supabase-js";
 
 // biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
