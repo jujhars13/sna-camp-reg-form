@@ -17,7 +17,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
     "@eslint/js": "^9.9.0",
-    "@faker-js/faker": "^8.4.1",
+    "@faker-js/faker": "^10.5.0",
     "@sentry/webpack-plugin": "^2.22.2",
     "@types/node": "^20.14.12",
     "@types/selenium-webdriver": "^4.1.28",
