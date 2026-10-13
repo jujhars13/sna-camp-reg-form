@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       eventJson = "2026-08-10-stratford-road.json";
       break;
     case "westbrom.snaform.com":
-      eventJson = "2026-07-20-west-bromwich.json";
+      eventJson = "2026-10-13-west-bromwich.json";
       break;
     case "oldbury.snaform.com":
     case "wolves.snaform.com":
