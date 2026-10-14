@@ -68,6 +68,7 @@ module.exports = {
 			project: "javascript",
 			authToken: process.env?.SENTRY_AUTH_TOKEN,
 			release: { name: version },
+			options: { telemetry: false },
 		}),
 	],
 };
