@@ -1,0 +1,14 @@
+# Which Google accounts can see which camp reports.
+# Mounted into the reports container via compose.yaml (./reports/config).
+# Camp keys are the `name` field from app/src/data/*.json; "*" means every camp.
+# Emails are matched case-insensitively. Edits are picked up without a restart.
+users:
+  jujhar@jujhar.com:
+    camps: ["*"]
+  sukhasingh@sna.org:
+    camps: ["*"]
+  guptsinghni@gmail.com:
+    camps:
+      - west-bromwich-2025-08-04
+      - west-bromwich-2026-07-20
+      - west-bromwich-2026-10-29

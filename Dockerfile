@@ -1,4 +1,4 @@
-FROM node:24-bookworm-slim AS builder
+FROM node:26-bookworm-slim AS builder
 
 WORKDIR /app
 
@@ -23,7 +23,7 @@ RUN npm run build
 # Dev stage: deps only, no bundle. Used by compose.dev.yaml, which mounts the
 # source in via compose watch and runs webpack-dev-server.
 # Must stay above the final stage so a plain `docker build .` still targets nginx.
-FROM node:24-bookworm-slim AS dev
+FROM node:26-bookworm-slim AS dev
 
 WORKDIR /app
 

@@ -1,0 +1,82 @@
+/* Screen: keep the wide all-columns table scrollable rather than squashing it. */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.report table {
+  font-size: 0.8rem;
+}
+
+.report th,
+.report td {
+  white-space: nowrap;
+  padding: 0.25rem 0.5rem;
+}
+
+.report td {
+  white-space: normal;
+  min-width: 6ch;
+}
+
+/* Print: A4 landscape, menu and buttons hidden, header row repeated per page. */
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
+@media print {
+  :root,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  main.container-fluid {
+    padding: 0;
+  }
+
+  .report hgroup {
+    margin-bottom: 4mm;
+  }
+
+  .report h1 {
+    font-size: 14pt;
+    margin: 0;
+  }
+
+  .report hgroup p {
+    font-size: 9pt;
+  }
+
+  .table-wrap {
+    overflow: visible;
+  }
+
+  .report table {
+    width: 100%;
+    font-size: 7.5pt;
+    border-collapse: collapse;
+  }
+
+  .report thead {
+    display: table-header-group;
+  }
+
+  .report tr {
+    break-inside: avoid;
+  }
+
+  .report th,
+  .report td {
+    padding: 1mm 1.5mm;
+    border: 0.5pt solid #999;
+    background: #fff !important;
+    color: #000 !important;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}

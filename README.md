@@ -4,7 +4,7 @@ A registration for for SNA camps
 
 Web client -> supabase database
 
-Using Metabase for reports
+Reports: `/admin` on admin.snaform.com (see [reports/README.md](reports/README.md)), Metabase for anything else
 
 ## Running
 
@@ -36,7 +36,7 @@ npm test
 - [x] Write kustomize manifest for app
 - [x] Add ability to customise form for different events
 - [x] Test end to end integration
-- [ ] Write report pages for database
+- [x] Write report pages for database
 - [x] Tweak and tidy form
 
 ---
