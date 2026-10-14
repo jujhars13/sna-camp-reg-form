@@ -14,6 +14,51 @@ Reports: `/admin` on admin.snaform.com (see [reports/README.md](reports/README.m
 (cd app && npm run dev)
 ```
 
+## Admin: camp reports
+
+Organisers sign in with Google at <https://admin.snaform.com/admin>, pick a
+camp from the menu and get a printable (A4 landscape) list of its campers.
+The code is in [reports/](reports/), and [reports/README.md](reports/README.md)
+has the full setup.
+
+```
+traefik → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
+```
+
+### Common tasks
+
+- **Give someone access:** add their Google email to
+  [reports/config/access.yaml](reports/config/access.yaml), listing camp
+  names or `"*"` for every camp. The running container picks up the change
+  without a restart. If the YAML is malformed, the error is logged and the
+  previous list stays in force, so check `docker logs sna-camp-reports` after
+  editing.
+- **Add a camp:** add its JSON to `app/src/data/`, as for the form. The report
+  menu uses the same files, keyed by `name`, so the reports image needs
+  rebuilding (tag a release) before the camp appears.
+- **Change the report columns:** edit the SQL in
+  [reports/src/db.js](reports/src/db.js). Column names and aliases become the
+  table headings.
+- **Run it locally:** no Google login. You're treated as `dev@localhost` and
+  see every camp, with test data from a local Postgres.
+
+  ```bash
+  docker compose -f compose.dev.yaml watch postgres reports
+  # http://localhost:3000/admin
+  (cd reports && npm test)
+  ```
+
+### Production config
+
+`.env` on the compose host needs `DATABASE_URL`, `OAUTH2_PROXY_CLIENT_ID`,
+`OAUTH2_PROXY_CLIENT_SECRET`, `OAUTH2_PROXY_COOKIE_SECRET` and `ACME_EMAIL`
+(see [.env.template](.env.template)). The Google OAuth client's redirect URI is
+`https://admin.snaform.com/admin/oauth2/callback`.
+
+> Anyone with a Google account can sign in, but they only see the camps
+> `access.yaml` grants them. The reports container is reachable only through
+> oauth2-proxy, so never give it Traefik labels or publish its port.
+
 ## Testing with Selenium
 
 ```bash

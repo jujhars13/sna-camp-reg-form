@@ -15,9 +15,11 @@ browser → traefik → oauth2-proxy (Google login) → reports (Node) → Supab
   list stays in force.
 - **Camps** come from `app/src/data/*.json`, keyed by `name` (the value the
   form stores in `snacamp.campname`). Add a camp there and rebuild the image.
-- **Query:** `src/db.js`. It currently selects every column, excluding
-  soft-deleted rows (`deleted IS NULL`). The table renders whatever columns the
-  query returns, so narrowing the `SELECT` needs no other change.
+- **Query:** `src/db.js`. It selects the columns shown on the report
+  (including a computed `age`) and excludes soft-deleted rows
+  (`deleted IS NULL`). The table renders whatever columns the query returns,
+  using the column names (or `AS` aliases) as headings, so changing the
+  `SELECT` needs no other change.
 - **Printing:** A4 landscape. The menu and buttons are hidden and the header
   row repeats on each page.
 
