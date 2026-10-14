@@ -3,9 +3,12 @@
 # NB. .env is .gitignored
 # to encrypt:
 #             SOPS_AGE_KEY_FILE=~/.secrets/jujhar/server.age.key sops encrypt --input-type dotenv .env --output .env.enc
+#             SOPS_AGE_KEY_FILE=~/.secrets/jujhar/server.age.key sops encrypt --input-type binary reports/config/prod-ca-2021.crt --output reports/config/prod-ca-2021.crt.enc
 # to decrypt:
 #             SOPS_AGE_KEY_FILE=~/.secrets/jujhar/server.age.key sops decrypt --input-type dotenv --output-type dotenv .env.enc --output .env
+# on the server:
 #             SOPS_AGE_KEY_FILE=/root/.secrets/server.age.key sops decrypt --input-type dotenv --output-type dotenv .env.enc --output .env
+#             SOPS_AGE_KEY_FILE=/root/.secrets/server.age.key sops decrypt --input-type binary --output-type binary reports/config/prod-ca-2021.crt.enc --output reports/config/prod-ca-2021.crt
 stores:
   yaml:
     indent: 2
