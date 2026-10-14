@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
@@ -68,7 +68,8 @@ module.exports = {
 			project: "javascript",
 			authToken: process.env?.SENTRY_AUTH_TOKEN,
 			release: { name: version },
-			options: { telemetry: false },
+			// top-level key; nesting it under `options` is silently ignored
+			telemetry: false,
 		}),
 	],
 };
