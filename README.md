@@ -4,7 +4,7 @@ A registration for for SNA camps
 
 Web client -> supabase database
 
-Reports: `/admin` on admin.snacamp.org (see [reports/README.md](reports/README.md)), Metabase for anything else
+Reports: `/admin` on admin.snapcamp.com (see [reports/README.md](reports/README.md)), Metabase for anything else
 
 ## Running
 
@@ -16,7 +16,7 @@ Reports: `/admin` on admin.snacamp.org (see [reports/README.md](reports/README.m
 
 ## Admin: camp reports
 
-Organisers sign in with Google at <https://admin.snacamp.org/admin>, pick a
+Organisers sign in with Google at <https://admin.snapcamp.com/admin>, pick a
 camp from the menu and get a printable (A4 landscape) list of its campers.
 The code is in [reports/](reports/), and [reports/README.md](reports/README.md)
 has the full setup.
@@ -53,7 +53,7 @@ router (TLS) → oauth2-proxy (Google login) → reports (Node) → Supabase Pos
 `.env` on the compose host needs `DATABASE_URL`, `OAUTH2_PROXY_CLIENT_ID`,
 `OAUTH2_PROXY_CLIENT_SECRET` and `OAUTH2_PROXY_COOKIE_SECRET`
 (see [.env.template](.env.template)). The Google OAuth client's redirect URI is
-`https://admin.snacamp.org/admin/oauth2/callback`.
+`https://admin.snapcamp.com/admin/oauth2/callback`.
 
 > Anyone with a Google account can sign in, but they only see the camps
 > `access.yaml` grants them. The reports container is reachable only through
