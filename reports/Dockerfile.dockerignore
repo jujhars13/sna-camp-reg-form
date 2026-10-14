@@ -1,0 +1,7 @@
+# Used instead of the root .dockerignore when building reports/Dockerfile.
+**
+!reports/package.json
+!reports/package-lock.json
+!reports/src
+!reports/public
+!app/src/data

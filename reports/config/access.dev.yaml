@@ -1,0 +1,6 @@
+# Local development access list (compose.dev.yaml). Not used in production.
+users:
+  dev@localhost:
+    camps: ["*"]
+  leader@localhost:
+    camps: [west-bromwich-2026-10-29]

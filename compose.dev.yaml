@@ -6,6 +6,11 @@
 #
 # Then open http://localhost:8080 — the app keys its event config off the
 # hostname, and "localhost" maps to src/data/test.json.
+#
+# The reports page runs at http://localhost:3000/admin against a local
+# Postgres seeded from initdb/ plus reports/initdb/ (dev rows). There is no
+# OAuth locally: DEV_USER_EMAIL stands in for the oauth2-proxy email header,
+# and reports/config/access.dev.yaml decides which camps it can see.
 
 services:
   frontend:
@@ -45,3 +50,58 @@ services:
           path: ./app/package-lock.json
         - action: rebuild
           path: ./Dockerfile
+
+  postgres:
+    container_name: sna-camp-postgres-dev
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./reports/initdb/000-supabase-roles.sql:/docker-entrypoint-initdb.d/000-supabase-roles.sql:ro
+      - ./initdb/010-my-tables.sql:/docker-entrypoint-initdb.d/010-my-tables.sql:ro
+      - ./reports/initdb/020-dev-seed.sql:/docker-entrypoint-initdb.d/020-dev-seed.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  reports:
+    container_name: sna-camp-reports-dev
+    build:
+      context: .
+      dockerfile: reports/Dockerfile
+    restart: unless-stopped
+    command: ["node", "--watch", "src/server.js"]
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      DATABASE_SSL: disable
+      DEV_USER_EMAIL: ${DEV_USER_EMAIL:-dev@localhost}
+      ACCESS_FILE: /srv/reports/config/access.dev.yaml
+    volumes:
+      - ./reports/config/access.dev.yaml:/srv/reports/config/access.dev.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    develop:
+      watch:
+        # node --watch restarts the server when synced source changes.
+        - action: sync
+          path: ./reports/src
+          target: /srv/reports/src
+        - action: sync
+          path: ./reports/public
+          target: /srv/reports/public
+        - action: sync+restart
+          path: ./app/src/data
+          target: /srv/reports/data
+        - action: rebuild
+          path: ./reports/package.json
+        - action: rebuild
+          path: ./reports/package-lock.json

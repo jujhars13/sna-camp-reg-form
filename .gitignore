@@ -14,3 +14,6 @@ dist/
 .idea
 
 .env
+
+# Reports authZ list holds real email addresses; only the example is committed
+reports/config/access.yaml
