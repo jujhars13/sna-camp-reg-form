@@ -1,5 +1,9 @@
-return false;
 import { createClient } from "@supabase/supabase-js";
+
+// Kill switch for registrations. While false the page never loads event data,
+// so the submit button stays disabled (it ships disabled in index.html).
+// NB: client-side only — the anon key can still insert unless RLS blocks it.
+const FORMS_ENABLED = false;
 
 // biome-ignore lint/correctness/noUndeclaredVariables: subbed in by webpack
 const version = __version;
@@ -69,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // DOM is fully loaded
   const domain = window.location.hostname;
   console.log({ version, environment, domain });
+  if (!FORMS_ENABLED) {
+    return;
+  }
   let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
@@ -193,6 +200,9 @@ document
   .getElementById("registrationForm")
   .addEventListener("submit", (event) => {
     event.preventDefault();
+    if (!FORMS_ENABLED) {
+      return;
+    }
 
     const dob = document.getElementById("dob").value;
     const minimumAge = document
