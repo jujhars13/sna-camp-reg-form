@@ -21,16 +21,24 @@ export function parseAccess(text) {
 }
 
 // Re-reads the file whenever its mtime changes, so edits to the mounted YAML
-// take effect without restarting the container.
-export function createAuthz(accessFile) {
+// take effect without restarting the container. A broken edit is logged and
+// the last good list stays in force; if it never loaded, nobody gets access.
+export function createAuthz(accessFile, log = console.error) {
   let mtimeMs = -1;
   let access = new Map();
 
   function current() {
-    const stat = statSync(accessFile);
-    if (stat.mtimeMs !== mtimeMs) {
-      access = parseAccess(readFileSync(accessFile, "utf8"));
-      mtimeMs = stat.mtimeMs;
+    try {
+      const stat = statSync(accessFile);
+      if (stat.mtimeMs !== mtimeMs) {
+        mtimeMs = stat.mtimeMs;
+        access = parseAccess(readFileSync(accessFile, "utf8"));
+      }
+    } catch (err) {
+      log(
+        `could not load ${accessFile}, keeping previous access list:`,
+        err.message,
+      );
     }
     return access;
   }

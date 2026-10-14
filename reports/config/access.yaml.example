@@ -1,5 +1,5 @@
 # Which Google accounts can see which camp reports.
-# Copy to access.yaml (gitignored) and mount it into the reports container.
+# Copy to access.yaml and mount it into the reports container.
 # Camp keys are the `name` field from app/src/data/*.json; "*" means every camp.
 # Emails are matched case-insensitively. Edits are picked up without a restart.
 users:

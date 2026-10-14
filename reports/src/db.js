@@ -8,7 +8,12 @@ pg.types.setTypeParser(pg.types.builtins.TIMESTAMP, (value) => value);
 
 // TODO: narrow the column list once we know what each report needs.
 const CAMPERS_SQL = `
-  SELECT *
+  SELECT 
+  id, firstname, surname, dob,
+  round((CURRENT_DATE - dob) / 365.25, 1) AS age,
+  gender, postcode,
+  guardianname AS "Guardian Name", guardiannumber AS "Number",
+  allergies, notes
   FROM public.snacamp
   WHERE campname = $1
     AND deleted IS NULL

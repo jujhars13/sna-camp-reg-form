@@ -1,7 +1,7 @@
 # Build context is the repo root so the camp definitions in app/src/data can be
 # copied in alongside the service:
 #   docker build -f reports/Dockerfile .
-FROM node:24-bookworm-slim
+FROM node:26-bookworm-slim
 
 ENV NODE_ENV=production
 WORKDIR /srv/reports

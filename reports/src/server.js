@@ -37,6 +37,17 @@ export function createApp({ camps, authz, db, devEmail = "" }) {
   }
 
   return async function handler(req, res) {
+    try {
+      await route(req, res);
+    } catch (err) {
+      console.error(`${req.method} ${req.url} failed:`, err);
+      if (!res.headersSent)
+        send(res, 500, renderError(500, "Something went wrong"));
+      else res.end();
+    }
+  };
+
+  async function route(req, res) {
     const url = new URL(req.url, "http://reports.local");
 
     if (req.method !== "GET" && req.method !== "HEAD") {
@@ -85,27 +96,22 @@ export function createApp({ camps, authz, db, devEmail = "" }) {
       );
     }
 
-    try {
-      const data = await db.campers(campName);
-      const generatedAt = new Date().toLocaleString("en-GB", {
-        timeZone: "Europe/London",
-      });
-      return send(
-        res,
-        200,
-        renderPage({
-          email,
-          camps: visibleCamps,
-          selected: camp,
-          data,
-          generatedAt,
-        }),
-      );
-    } catch (err) {
-      console.error(`report query failed for ${campName}:`, err);
-      return send(res, 500, renderError(500, "Could not load the report"));
-    }
-  };
+    const data = await db.campers(campName);
+    const generatedAt = new Date().toLocaleString("en-GB", {
+      timeZone: "Europe/London",
+    });
+    return send(
+      res,
+      200,
+      renderPage({
+        email,
+        camps: visibleCamps,
+        selected: camp,
+        data,
+        generatedAt,
+      }),
+    );
+  }
 }
 
 function main() {

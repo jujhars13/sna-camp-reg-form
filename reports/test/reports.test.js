@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import http from "node:http";
 import path from "node:path";
-import { after, before, describe, it } from "node:test";
+import { after, before, describe, it, mock } from "node:test";
 import { fileURLToPath } from "node:url";
 import { createAuthz, parseAccess } from "../src/authz.js";
 import { loadCamps, sortCamps } from "../src/camps.js";
@@ -163,5 +163,40 @@ describe("server", () => {
   it("serves static css and a health check", async () => {
     assert.equal((await get("/admin/static/reports.css")).status, 200);
     assert.equal((await get("/admin/healthz")).status, 200);
+  });
+});
+
+describe("resilience", () => {
+  it("keeps no access, without throwing, when access.yaml is malformed", () => {
+    const logs = [];
+    const broken = createAuthz(
+      path.join(fixtures, "broken-access.yaml"),
+      (...a) => logs.push(a),
+    );
+    assert.equal(broken.canView("jujhar@example.com", "anything"), false);
+    assert.equal(logs.length, 1);
+  });
+
+  it("returns 500 instead of crashing when the db fails", async () => {
+    const failing = {
+      campers: async () => {
+        throw new Error("db down");
+      },
+    };
+    const server = http.createServer(createApp({ camps, authz, db: failing }));
+    await new Promise((resolve) => server.listen(0, resolve));
+    const quiet = mock.method(console, "error", () => undefined);
+    try {
+      const res = await fetch(
+        `http://127.0.0.1:${server.address().port}/admin?camp=west-bromwich-2026-07-20`,
+        {
+          headers: { "X-Forwarded-Email": "admin@example.com" },
+        },
+      );
+      assert.equal(res.status, 500);
+    } finally {
+      quiet.mock.restore();
+      server.close();
+    }
   });
 });

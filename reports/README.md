@@ -10,8 +10,9 @@ browser → traefik → oauth2-proxy (Google login) → reports (Node) → Supab
   email to the app in `X-Forwarded-Email`. The reports container is only on a
   private network with oauth2-proxy, so that header can't be forged.
 - **Authorisation:** `config/access.yaml` maps emails to camp names (`"*"` = all).
-  Copy `config/access.yaml.example`. It's gitignored, and edits are picked up
-  without a restart.
+  It's committed and mounted into the container, so edits on the host are
+  picked up without a restart. A malformed edit is logged and the previous
+  list stays in force.
 - **Camps** come from `app/src/data/*.json`, keyed by `name` (the value the
   form stores in `snacamp.campname`). Add a camp there and rebuild the image.
 - **Query:** `src/db.js`. It currently selects every column, excluding

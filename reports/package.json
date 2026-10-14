@@ -12,7 +12,7 @@
     "lint": "biome check"
   },
   "engines": {
-    "node": ">=24"
+    "node": ">=26"
   },
   "author": "Jujhar Singh",
   "license": "ISC",
