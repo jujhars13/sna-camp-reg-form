@@ -1,0 +1,16 @@
+# Which keys can decrypt these secrets. Both the PGP backup key and the age
+# key can each decrypt independently (they are OR'd, not split).
+# NB. .env is .gitignored
+# to encrypt:
+#             SOPS_AGE_KEY_FILE=~/.secrets/jujhar/server.age.key sops encrypt --input-type dotenv .env --output .env.enc
+# to decrypt:
+#             SOPS_AGE_KEY_FILE=~/.secrets/jujhar/server.age.key sops decrypt --input-type dotenv --output-type dotenv .env.enc --output .env
+#             SOPS_AGE_KEY_FILE=/root/.secrets/server.age.key sops decrypt --input-type dotenv --output-type dotenv .env.enc --output .env
+stores:
+  yaml:
+    indent: 2
+
+creation_rules:
+  - pgp: "953D50B7269F6802FA1DBE30F680EB1BF79164AA"
+    # ~/.secrets/jujhar/server.age.key
+    age: "age1y59c8txzclgcqt2yw2mhvpg9s36jh6shv33tuunp3hzzgavk99nqkfc9ey"
