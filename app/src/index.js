@@ -72,12 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let eventJson = "test.json"; // Default to test.json
 
   switch (domain) {
-    case "stratford.snaform.com":
-      eventJson = "2026-08-10-stratford-road.json";
-      break;
     case "westbrom.snaform.com":
-      eventJson = "2026-10-13-west-bromwich.json";
+      eventJson = "west-bromwich.json";
       break;
+    case "stratford.snaform.com":
     case "oldbury.snaform.com":
     case "wolves.snaform.com":
     case "localhost":
@@ -260,7 +258,7 @@ document
         );
       })
       .catch((error) => {
-        console.error("Supbabase submission Error:", error);
+        console.error("Supabase submission Error:", error);
         if (
           window.Sentry &&
           typeof window.Sentry.captureException === "function"

@@ -1,0 +1,14 @@
+{
+	"name": "west-bromwich-2026-10-29",
+	"humanName": "SNA Camp Oct 29th 2026",
+	"date": {
+		"from": "2026-10-29",
+		"to": "2026-10-29"
+	},
+	"ageLimits": {
+		"minimum": 8,
+		"maximum": "13"
+	},
+	"tshirts": false,
+	"bgcolour": "#465757"
+}
