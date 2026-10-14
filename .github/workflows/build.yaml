@@ -76,3 +76,19 @@ jobs:
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             VERSIONS=aloo
             VERSION=${{ github.ref_name }}
+
+      - name: Reports Docker metadata
+        id: reports-meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ghcr.io/jujhars13/sna-camp-reports
+
+      # No secrets at build time: DATABASE_URL and access.yaml are runtime-only.
+      - name: Build and push reports Docker image
+        uses: docker/build-push-action@v7
+        with:
+          file: reports/Dockerfile
+          context: .
+          push: true
+          tags: ${{ steps.reports-meta.outputs.tags }}
+          labels: ${{ steps.reports-meta.outputs.labels }}
