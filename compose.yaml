@@ -45,12 +45,12 @@ services:
       - --providers.docker.exposedbydefault=false
       - --providers.docker.network=ingress-proxy
       - --entrypoints.web.address=:80
-      - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      - --entrypoints.web.http.redirections.entrypoint.scheme=https
-      - --entrypoints.websecure.address=:443
-      - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
-      - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:?set ACME_EMAIL in .env}
-      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      # - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      # - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      # - --entrypoints.websecure.address=:443
+      # - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
+      # - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:?set ACME_EMAIL in .env}
+      # - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
     # ports:
     #   - "80:80"
     #   - "443:443"
@@ -95,7 +95,7 @@ services:
       # All of admin.snaform.com goes through Google login; / bounces to /admin
       traefik.http.routers.sna-reports.rule: Host(`admin.snaform.com`)
       traefik.http.routers.sna-reports.entrypoints: websecure
-      traefik.http.routers.sna-reports.tls.certresolver: letsencrypt
+      #traefik.http.routers.sna-reports.tls.certresolver: letsencrypt
       traefik.http.routers.sna-reports.middlewares: sna-reports-root
       traefik.http.middlewares.sna-reports-root.redirectregex.regex: ^https://admin\.snaform\.com/?$$
       traefik.http.middlewares.sna-reports-root.redirectregex.replacement: https://admin.snaform.com/admin
