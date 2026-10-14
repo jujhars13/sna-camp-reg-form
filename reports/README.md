@@ -62,7 +62,6 @@ cd reports && npm install && npm test && npm run lint
    ```
 6. `docker compose up -d`
 
-> compose.yaml now includes its own Traefik on :80/:443. If the host already
-> runs a Traefik on the `ingress-proxy` network, remove the `traefik` service.
-> The existing Traefik will route `/admin` from the oauth2-proxy labels as
-> long as it has a `websecure` entrypoint and a `letsencrypt` resolver.
+> Traefik (container `sna-camp-form`) is the primary router on :80/:443.
+> Requests for `admin.snaform.com` go to oauth2-proxy → reports; every other
+> host falls through to the form (`sna-camp-form-frontend`).

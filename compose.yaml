@@ -18,6 +18,7 @@ volumes:
   traefik-letsencrypt:
 
 services:
+  # Catch-all: any host other than admin.snaform.com lands on the form.
   frontend:
     container_name: sna-camp-form
     image: ghcr.io/jujhars13/sna-camp-form:latest
@@ -26,12 +27,17 @@ services:
       - default
     labels:
       <<: *common-labels
+      traefik.enable: true
+      traefik.docker.network: ingress-proxy
+      traefik.http.routers.sna-form.rule: PathPrefix(`/`)
+      # Lowest priority so the admin.snaform.com router always wins
+      traefik.http.routers.sna-form.priority: 1
+      traefik.http.routers.sna-form.entrypoints: websecure
+      traefik.http.routers.sna-form.tls.certresolver: letsencrypt
+      traefik.http.services.sna-form.loadbalancer.server.port: 80
 
-  # NOTE: this binds :80/:443 on the host. If another Traefik already serves
-  # the ingress-proxy network there, drop this service and let that one pick
-  # up the oauth2-proxy labels below (they use the same router config).
   traefik:
-    container_name: sna-camp-traefik
+    container_name: sna-camp-form-admin
     image: traefik:v3.7
     restart: unless-stopped
     command:
@@ -45,9 +51,9 @@ services:
       - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
       - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:?set ACME_EMAIL in .env}
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
-    ports:
-      - "80:80"
-      - "443:443"
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik-letsencrypt:/letsencrypt
@@ -86,9 +92,13 @@ services:
       <<: *common-labels
       traefik.enable: true
       traefik.docker.network: ingress-proxy
-      traefik.http.routers.sna-reports.rule: Host(`admin.snaform.com`) && PathPrefix(`/admin`)
+      # All of admin.snaform.com goes through Google login; / bounces to /admin
+      traefik.http.routers.sna-reports.rule: Host(`admin.snaform.com`)
       traefik.http.routers.sna-reports.entrypoints: websecure
       traefik.http.routers.sna-reports.tls.certresolver: letsencrypt
+      traefik.http.routers.sna-reports.middlewares: sna-reports-root
+      traefik.http.middlewares.sna-reports-root.redirectregex.regex: ^https://admin\.snaform\.com/?$$
+      traefik.http.middlewares.sna-reports-root.redirectregex.replacement: https://admin.snaform.com/admin
       traefik.http.services.sna-reports.loadbalancer.server.port: 4180
 
   reports:
