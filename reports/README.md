@@ -1,9 +1,9 @@
 # Camp reports (`/admin`)
 
-Printable list of campers per camp, at `https://admin.snaform.com/admin`.
+Printable list of campers per camp, at `https://admin.snacamp.org/admin`.
 
 ```
-browser → traefik → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
+browser → router (TLS) → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
 ```
 
 - **Authentication:** oauth2-proxy accepts any Google account and passes the
@@ -41,14 +41,15 @@ cd reports && npm install && npm test && npm run lint
 
 ## Production setup (one-off)
 
-1. **DNS:** an A record for `admin.snaform.com` pointing at the compose host.
+1. **DNS and router:** `admin.snacamp.org` points at the external router, which
+   terminates TLS and forwards plain HTTP to port 80 on the compose host.
 2. **Google Cloud console:** APIs & Services → Credentials → *OAuth client ID*
    (Web application).
-   - Authorised redirect URI: `https://admin.snaform.com/admin/oauth2/callback`
+   - Authorised redirect URI: `https://admin.snacamp.org/admin/oauth2/callback`
    - The consent screen can be *External* so non-Workspace Gmail users can sign in.
 3. **`.env`** on the host (see `.env.template`): `DATABASE_URL`,
    `OAUTH2_PROXY_CLIENT_ID`, `OAUTH2_PROXY_CLIENT_SECRET`,
-   `OAUTH2_PROXY_COOKIE_SECRET`, `ACME_EMAIL`.
+   `OAUTH2_PROXY_COOKIE_SECRET`.
 4. **Database TLS:** download Supabase's CA cert (Project settings → Database →
    SSL configuration) into `reports/config/` and set `DATABASE_CA_FILE` to its
    path inside the container. Alternatively, set `DATABASE_SSL=require`.
@@ -62,6 +63,6 @@ cd reports && npm install && npm test && npm run lint
    ```
 6. `docker compose up -d`
 
-> Traefik (container `sna-camp-form`) is the primary router on :80/:443.
-> Requests for `admin.snaform.com` go to oauth2-proxy → reports; every other
-> host falls through to the form (`sna-camp-form-frontend`).
+> oauth2-proxy (container `sna-camp-oauth2-proxy`) publishes :80 and is the
+> only way in. `/` redirects to `/admin`. The cookie is `Secure`, so the site
+> only works over HTTPS via the router.

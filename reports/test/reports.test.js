@@ -164,6 +164,12 @@ describe("server", () => {
     assert.equal((await get("/admin/static/reports.css")).status, 200);
     assert.equal((await get("/admin/healthz")).status, 200);
   });
+
+  it("redirects / to /admin", async () => {
+    const res = await fetch(`${base}/`, { redirect: "manual" });
+    assert.equal(res.status, 302);
+    assert.equal(res.headers.get("location"), "/admin");
+  });
 });
 
 describe("resilience", () => {

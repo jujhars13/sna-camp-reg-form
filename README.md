@@ -4,7 +4,7 @@ A registration for for SNA camps
 
 Web client -> supabase database
 
-Reports: `/admin` on admin.snaform.com (see [reports/README.md](reports/README.md)), Metabase for anything else
+Reports: `/admin` on admin.snacamp.org (see [reports/README.md](reports/README.md)), Metabase for anything else
 
 ## Running
 
@@ -16,13 +16,13 @@ Reports: `/admin` on admin.snaform.com (see [reports/README.md](reports/README.m
 
 ## Admin: camp reports
 
-Organisers sign in with Google at <https://admin.snaform.com/admin>, pick a
+Organisers sign in with Google at <https://admin.snacamp.org/admin>, pick a
 camp from the menu and get a printable (A4 landscape) list of its campers.
 The code is in [reports/](reports/), and [reports/README.md](reports/README.md)
 has the full setup.
 
 ```
-traefik → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
+router (TLS) → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
 ```
 
 ### Common tasks
@@ -51,13 +51,13 @@ traefik → oauth2-proxy (Google login) → reports (Node) → Supabase Postgres
 ### Production config
 
 `.env` on the compose host needs `DATABASE_URL`, `OAUTH2_PROXY_CLIENT_ID`,
-`OAUTH2_PROXY_CLIENT_SECRET`, `OAUTH2_PROXY_COOKIE_SECRET` and `ACME_EMAIL`
+`OAUTH2_PROXY_CLIENT_SECRET` and `OAUTH2_PROXY_COOKIE_SECRET`
 (see [.env.template](.env.template)). The Google OAuth client's redirect URI is
-`https://admin.snaform.com/admin/oauth2/callback`.
+`https://admin.snacamp.org/admin/oauth2/callback`.
 
 > Anyone with a Google account can sign in, but they only see the camps
 > `access.yaml` grants them. The reports container is reachable only through
-> oauth2-proxy, so never give it Traefik labels or publish its port.
+> oauth2-proxy, so never publish its port or add it to another network.
 
 ## Testing with Selenium
 

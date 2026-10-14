@@ -2,7 +2,7 @@ networks:
   default:
     name: ingress-proxy
     external: true
-  # Private link between oauth2-proxy and the reports app. Traefik is not on
+  # Private link between oauth2-proxy and the reports app. Nothing else is on
   # it, so the only way to reach reports is through oauth2-proxy, which is what
   # makes its X-Forwarded-Email header trustworthy.
   reports:
@@ -14,11 +14,7 @@ x-common-labels: &common-labels
   org.opencontainers.image.vendor: "com.jujhar"
   org.opencontainers.image.authors: "jujhar@jujhar.com"
 
-volumes:
-  traefik-letsencrypt:
-
 services:
-  # Catch-all: any host other than admin.snaform.com lands on the form.
   frontend:
     container_name: sna-camp-form
     image: ghcr.io/jujhars13/sna-camp-form:latest
@@ -27,45 +23,12 @@ services:
       - default
     labels:
       <<: *common-labels
-      traefik.enable: true
-      traefik.docker.network: ingress-proxy
-      traefik.http.routers.sna-form.rule: PathPrefix(`/`)
-      # Lowest priority so the admin.snaform.com router always wins
-      traefik.http.routers.sna-form.priority: 1
-      traefik.http.routers.sna-form.entrypoints: websecure
-      traefik.http.routers.sna-form.tls.certresolver: letsencrypt
-      traefik.http.services.sna-form.loadbalancer.server.port: 80
 
-  traefik:
-    container_name: sna-camp-form-admin
-    image: traefik:v3.7
-    restart: unless-stopped
-    command:
-      - --providers.docker=true
-      - --providers.docker.exposedbydefault=false
-      - --providers.docker.network=ingress-proxy
-      - --entrypoints.web.address=:80
-      # - --entrypoints.web.http.redirections.entrypoint.to=websecure
-      # - --entrypoints.web.http.redirections.entrypoint.scheme=https
-      # - --entrypoints.websecure.address=:443
-      # - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
-      # - --certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL:?set ACME_EMAIL in .env}
-      # - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - traefik-letsencrypt:/letsencrypt
-    networks:
-      - default
-    labels:
-      <<: *common-labels
-
-  # Google OAuth in front of /admin. Any Google account can sign in; which
+  # Entry point for admin.snacamp.org. The external router terminates TLS and
+  # forwards plain HTTP to port 80 here. Any Google account can sign in; which
   # camps they then see is decided by the reports app from access.yaml.
   oauth2-proxy:
-    container_name: sna-camp-oauth2-proxy
+    container_name: sna-camp-form-admin
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.15.5
     restart: unless-stopped
     environment:
@@ -75,14 +38,16 @@ services:
       OAUTH2_PROXY_COOKIE_SECRET: ${OAUTH2_PROXY_COOKIE_SECRET:?set OAUTH2_PROXY_COOKIE_SECRET in .env}
       OAUTH2_PROXY_COOKIE_NAME: _sna_reports
       OAUTH2_PROXY_COOKIE_SECURE: "true"
-      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:80
       OAUTH2_PROXY_REVERSE_PROXY: "true"
       OAUTH2_PROXY_PROXY_PREFIX: /admin/oauth2
-      OAUTH2_PROXY_REDIRECT_URL: https://admin.snaform.com/admin/oauth2/callback
+      OAUTH2_PROXY_REDIRECT_URL: https://admin.snacamp.org/admin/oauth2/callback
       OAUTH2_PROXY_UPSTREAMS: http://sna-camp-reports:3000
       OAUTH2_PROXY_EMAIL_DOMAINS: "*"
       OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
       OAUTH2_PROXY_PASS_USER_HEADERS: "true"
+    ports:
+      - "80:80"
     networks:
       - default
       - reports
@@ -90,16 +55,6 @@ services:
       - reports
     labels:
       <<: *common-labels
-      traefik.enable: true
-      traefik.docker.network: ingress-proxy
-      # All of admin.snaform.com goes through Google login; / bounces to /admin
-      traefik.http.routers.sna-reports.rule: Host(`admin.snaform.com`)
-      traefik.http.routers.sna-reports.entrypoints: websecure
-      #traefik.http.routers.sna-reports.tls.certresolver: letsencrypt
-      traefik.http.routers.sna-reports.middlewares: sna-reports-root
-      traefik.http.middlewares.sna-reports-root.redirectregex.regex: ^https://admin\.snaform\.com/?$$
-      traefik.http.middlewares.sna-reports-root.redirectregex.replacement: https://admin.snaform.com/admin
-      traefik.http.services.sna-reports.loadbalancer.server.port: 4180
 
   reports:
     container_name: sna-camp-reports

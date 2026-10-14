@@ -54,6 +54,11 @@ export function createApp({ camps, authz, db, devEmail = "" }) {
       return send(res, 405, renderError(405, "Method not allowed"));
     }
 
+    if (url.pathname === "/") {
+      res.writeHead(302, { Location: "/admin" });
+      return res.end();
+    }
+
     if (url.pathname === "/admin/healthz") {
       return send(res, 200, "ok", "text/plain");
     }
