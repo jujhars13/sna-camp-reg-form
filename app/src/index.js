@@ -72,10 +72,13 @@ function applyLegibleTheme(bgcolour) {
 document.addEventListener("DOMContentLoaded", () => {
 	// DOM is fully loaded
 	const domain = window.location.hostname;
-	console.log({ version, environment, domain });
+
+	console.log({ version, environment, domain, FORMS_ENABLED });
+
 	if (!FORMS_ENABLED) {
 		return;
 	}
+
 	let eventJson = "test.json"; // Default to test.json
 
 	switch (domain) {
