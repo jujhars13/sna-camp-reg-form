@@ -43,9 +43,12 @@ services:
       OAUTH2_PROXY_PROXY_PREFIX: /admin/oauth2
       OAUTH2_PROXY_REDIRECT_URL: https://admin.snaform.com/admin/oauth2/callback
       OAUTH2_PROXY_UPSTREAMS: http://sna-camp-reports:3000
-      OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      #OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      OAUTH2_PROXY_AUTHENTICATED_EMAILS_FILE: /oauth2_proxy_authenticated_emails_file.txt
       OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
       OAUTH2_PROXY_PASS_USER_HEADERS: "true"
+    volumes:
+      - ./oauth2_proxy_authenticated_emails_file.txt:/oauth2_proxy_authenticated_emails_file.txt:ro
     # ports:
     #   - "80:80"
     networks:
