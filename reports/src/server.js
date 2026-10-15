@@ -9,9 +9,20 @@ import { renderError, renderPage } from "./render.js";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 
+const CSS = "text/css; charset=utf-8";
+const JS = "text/javascript; charset=utf-8";
+
+// Paths are relative to reports/. List.js is served straight from node_modules
+// (a runtime dependency, pinned by the lockfile) rather than vendored or
+// pulled from a CDN, so no third party sees who opens a report.
 const STATIC_FILES = {
-  "/admin/static/pico.min.css": "pico.min.css",
-  "/admin/static/reports.css": "reports.css",
+  "/admin/static/pico.min.css": { file: "public/pico.min.css", type: CSS },
+  "/admin/static/reports.css": { file: "public/reports.css", type: CSS },
+  "/admin/static/reports.js": { file: "public/reports.js", type: JS },
+  "/admin/static/list.min.js": {
+    file: "node_modules/list.js/dist/list.min.js",
+    type: JS,
+  },
 };
 
 // Everything the server needs from the outside world is passed in, so tests
@@ -19,9 +30,9 @@ const STATIC_FILES = {
 export function createApp({ camps, authz, db, devEmail = "" }) {
   const sortedCamps = sortCamps(camps.values());
   const staticCache = new Map(
-    Object.entries(STATIC_FILES).map(([url, file]) => [
+    Object.entries(STATIC_FILES).map(([url, { file, type }]) => [
       url,
-      readFileSync(path.join(root, "public", file)),
+      { type, body: readFileSync(path.join(root, file)) },
     ]),
   );
 
@@ -31,7 +42,7 @@ export function createApp({ camps, authz, db, devEmail = "" }) {
       "Cache-Control": "no-store",
       "X-Content-Type-Options": "nosniff",
       "Content-Security-Policy":
-        "default-src 'none'; style-src 'self'; img-src data:; script-src 'unsafe-inline'; form-action 'self'",
+        "default-src 'none'; style-src 'self'; img-src data:; script-src 'self'; form-action 'self'",
     });
     res.end(body);
   }
@@ -63,12 +74,14 @@ export function createApp({ camps, authz, db, devEmail = "" }) {
       return send(res, 200, "ok", "text/plain");
     }
 
-    if (staticCache.has(url.pathname)) {
+    const asset = staticCache.get(url.pathname);
+    if (asset) {
       res.writeHead(200, {
-        "Content-Type": "text/css; charset=utf-8",
+        "Content-Type": asset.type,
         "Cache-Control": "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
       });
-      return res.end(staticCache.get(url.pathname));
+      return res.end(asset.body);
     }
 
     if (url.pathname !== "/admin" && url.pathname !== "/admin/") {

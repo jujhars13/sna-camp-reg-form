@@ -55,8 +55,8 @@ router (TLS) → oauth2-proxy (Google login) → reports (Node) → Supabase Pos
 (see [.env.template](.env.template)). The Google OAuth client's redirect URI is
 `https://admin.snapcamp.com/admin/oauth2/callback`.
 
-> Anyone with a Google account can sign in, but they only see the camps
-> `access.yaml` grants them. The reports container is reachable only through
+> Anyone with a Google account can sign in, but oauth2_proxy_authenticated_emails_file.txt contains allowlist past oauth2 proxy.  And then AuthZ is defined in
+> `access.yaml` grants. The reports container is reachable only through
 > oauth2-proxy, so never publish its port or add it to another network.
 
 ## Testing with Selenium

@@ -80,29 +80,69 @@ function menu(camps, selected) {
     </form>`;
 }
 
+function plural(count) {
+  return `${count} camper${count === 1 ? "" : "s"}`;
+}
+
+// Columns are whatever the query returns, so List.js keys them by position
+// (col-0, col-1, …) rather than by name: names like "Guardian Name" aren't
+// valid class names. public/reports.js wires up sorting, search, per-column
+// filters and the column picker; without JS the plain table still renders.
 function report(camp, { columns, rows }, generatedAt) {
-  const head = columns.map((col) => `<th>${escapeHtml(col)}</th>`).join("");
+  const key = (i) => `col-${i}`;
+  const sortHead = columns
+    .map(
+      (col, i) =>
+        `<th class="${key(i)}"><button type="button" class="sort" data-sort="${key(i)}">${escapeHtml(col)}</button></th>`,
+    )
+    .join("");
+  const filterHead = columns
+    .map(
+      (col, i) =>
+        `<th class="${key(i)}"><input type="search" data-filter="${key(i)}" aria-label="Filter ${escapeHtml(col)}" placeholder="Filter"></th>`,
+    )
+    .join("");
+  const picker = columns
+    .map(
+      (col, i) =>
+        `<li><label><input type="checkbox" data-column="${key(i)}" checked> ${escapeHtml(col)}</label></li>`,
+    )
+    .join("\n              ");
   const body = rows
     .map(
       (row) =>
-        `<tr>${columns.map((col) => `<td>${escapeHtml(formatValue(row[col]))}</td>`).join("")}</tr>`,
+        `<tr>${columns.map((col, i) => `<td class="${key(i)}">${escapeHtml(formatValue(row[col]))}</td>`).join("")}</tr>`,
     )
     .join("\n          ");
 
-  return `    <section class="report">
+  return `    <section class="report" id="report-list">
       <hgroup>
         <h1>${escapeHtml(camp.humanName)}</h1>
-        <p>${escapeHtml(campDates(camp))} · ${rows.length} camper${rows.length === 1 ? "" : "s"} · generated ${escapeHtml(generatedAt)}</p>
+        <p>${escapeHtml(campDates(camp))} · <span id="count" data-total="${rows.length}">${plural(rows.length)}</span> · generated ${escapeHtml(generatedAt)}</p>
       </hgroup>
-      <button type="button" class="no-print" onclick="window.print()">Print</button>
+      <div class="no-print report-controls">
+        <input type="search" id="report-search" placeholder="Search all columns" aria-label="Search all columns">
+        <details class="dropdown">
+          <summary>Columns</summary>
+          <ul>
+              ${picker}
+          </ul>
+        </details>
+        <button type="button" id="print">Print</button>
+      </div>
       <div class="table-wrap">
         <table class="striped">
-          <thead><tr>${head}</tr></thead>
-          <tbody>
+          <thead>
+            <tr>${sortHead}</tr>
+            <tr class="filters no-print">${filterHead}</tr>
+          </thead>
+          <tbody class="list">
           ${body}
           </tbody>
         </table>
       </div>
+      <script src="/admin/static/list.min.js" defer></script>
+      <script src="/admin/static/reports.js" defer></script>
     </section>`;
 }
 

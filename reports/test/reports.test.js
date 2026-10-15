@@ -77,6 +77,7 @@ describe("render", () => {
     });
     assert.match(html, /Choose a camp/);
     assert.doesNotMatch(html, /<table/);
+    assert.doesNotMatch(html, /<script/);
   });
 
   it("escapes camper data in the report", () => {
@@ -91,8 +92,34 @@ describe("render", () => {
       generatedAt: "now",
     });
     assert.match(html, /&lt;script&gt;x&lt;\/script&gt;/);
-    assert.match(html, /<td>Yes<\/td>/);
-    assert.match(html, /1 camper ·/);
+    assert.match(html, /<td class="col-1">Yes<\/td>/);
+    assert.match(html, /data-total="1">1 camper<\/span>/);
+  });
+
+  it("adds sort, filter and column controls keyed by position", () => {
+    const html = renderPage({
+      email: "a@b.com",
+      camps: [],
+      selected: camps.get("west-bromwich-2026-07-20"),
+      data: {
+        columns: ["firstname", `Guardian "Name"`],
+        rows: [{ firstname: "Ajeet", 'Guardian "Name"': "Kaur" }],
+      },
+      generatedAt: "now",
+    });
+    assert.match(
+      html,
+      /<button type="button" class="sort" data-sort="col-1">Guardian &quot;Name&quot;<\/button>/,
+    );
+    assert.match(
+      html,
+      /data-filter="col-1" aria-label="Filter Guardian &quot;Name&quot;"/,
+    );
+    assert.match(html, /data-column="col-0" checked/);
+    assert.match(html, /<tbody class="list">/);
+    assert.match(html, /src="\/admin\/static\/list\.min\.js"/);
+    assert.match(html, /src="\/admin\/static\/reports\.js"/);
+    assert.doesNotMatch(html, /onclick=/);
   });
 });
 
@@ -141,7 +168,7 @@ describe("server", () => {
       "leader@example.com",
     );
     assert.equal(res.status, 200);
-    assert.match(await res.text(), /<td>Ajeet<\/td>/);
+    assert.match(await res.text(), /<td class="col-0">Ajeet<\/td>/);
     assert.deepEqual(queried, ["west-bromwich-2026-07-20"]);
   });
 
@@ -163,6 +190,22 @@ describe("server", () => {
   it("serves static css and a health check", async () => {
     assert.equal((await get("/admin/static/reports.css")).status, 200);
     assert.equal((await get("/admin/healthz")).status, 200);
+  });
+
+  it("serves the report scripts as javascript", async () => {
+    for (const file of ["list.min.js", "reports.js"]) {
+      const res = await get(`/admin/static/${file}`);
+      assert.equal(res.status, 200);
+      assert.match(res.headers.get("content-type"), /^text\/javascript/);
+    }
+  });
+
+  it("only allows same-origin scripts", async () => {
+    const csp = (await get("/admin", "leader@example.com")).headers.get(
+      "content-security-policy",
+    );
+    assert.match(csp, /script-src 'self'/);
+    assert.doesNotMatch(csp, /unsafe-inline/);
   });
 
   it("redirects / to /admin", async () => {

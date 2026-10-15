@@ -20,6 +20,12 @@ browser → router (TLS) → oauth2-proxy (Google login) → reports (Node) → 
   (`deleted IS NULL`). The table renders whatever columns the query returns,
   using the column names (or `AS` aliases) as headings, so changing the
   `SELECT` needs no other change.
+- **Sort, search and filter:** click a heading to sort (again to reverse),
+  search across all columns, filter per column, and hide columns via
+  *Columns*. Done in the browser by `public/reports.js` with
+  [List.js](https://listjs.com/) (pinned in `package.json`, served from
+  `node_modules` at `/admin/static/list.min.js`, no CDN), so it works on
+  whatever columns the query returns. Print reflects the current view.
 - **Printing:** A4 landscape. The menu and buttons are hidden and the header
   row repeats on each page.
 

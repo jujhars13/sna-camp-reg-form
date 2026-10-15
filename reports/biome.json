@@ -82,7 +82,7 @@
     "formatter": {
       "quoteStyle": "double"
     },
-    "globals": []
+    "globals": ["List"]
   },
   "assist": {
     "enabled": true,

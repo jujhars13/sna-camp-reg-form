@@ -18,6 +18,72 @@
   min-width: 6ch;
 }
 
+/* Search, column picker and print on one row above the table. */
+.report-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.report-controls > * {
+  margin-bottom: 0;
+}
+
+.report-controls input[type="search"] {
+  flex: 1 1 16rem;
+}
+
+.report-controls details.dropdown {
+  flex: 0 0 auto;
+}
+
+.report-controls button {
+  width: auto;
+}
+
+/* Header buttons that sort; look like plain headings with an arrow. */
+.report th .sort {
+  all: unset;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.report th .sort:focus-visible {
+  outline: 2px solid var(--pico-primary);
+}
+
+.report th .sort::after {
+  content: " ↕";
+  opacity: 0.35;
+}
+
+.report th .sort.asc::after {
+  content: " ▲";
+  opacity: 1;
+}
+
+.report th .sort.desc::after {
+  content: " ▼";
+  opacity: 1;
+}
+
+.report thead .filters input {
+  margin: 0;
+  padding: 0.15rem 0.5rem;
+  background-image: none; /* Pico's magnifier icon overlaps in narrow columns */
+  height: auto;
+  font-size: 0.75rem;
+  min-width: 6ch;
+}
+
+/* Toggled from the Columns picker; applies to print too. */
+.col-hidden {
+  display: none;
+}
+
 /* Print: A4 landscape, menu and buttons hidden, header row repeated per page. */
 @page {
   size: A4 landscape;
@@ -68,6 +134,12 @@
 
   .report tr {
     break-inside: avoid;
+  }
+
+  .report th .sort::after,
+  .report th .sort.asc::after,
+  .report th .sort.desc::after {
+    content: none;
   }
 
   .report th,
