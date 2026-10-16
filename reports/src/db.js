@@ -10,10 +10,10 @@ pg.types.setTypeParser(pg.types.builtins.TIMESTAMP, (value) => value);
 const CAMPERS_SQL = `
   SELECT 
   id, firstname, surname, dob,
-  round((CURRENT_DATE - dob) / 365.25, 1) AS age,
-  gender, postcode,
+  round((CURRENT_DATE - dob) / 365.25, 1) AS age, gender,
   guardianname AS "Guardian Name", guardiannumber AS "Number",
-  allergies, notes
+  allergies, notes,
+  addressline1, addressline2, city, postcode
   FROM public.snacamp
   WHERE campname = $1
     AND deleted IS NULL
@@ -25,23 +25,23 @@ const CAMPERS_SQL = `
 // the project's database settings). "require" encrypts without verifying,
 // "disable" is for the local dev database only.
 export function sslConfig(mode = "verify", caFile = "") {
-  if (mode === "disable") return false;
-  if (mode === "require") return { rejectUnauthorized: false };
-  return caFile
-    ? { rejectUnauthorized: true, ca: readFileSync(caFile, "utf8") }
-    : { rejectUnauthorized: true };
+	if (mode === "disable") return false;
+	if (mode === "require") return { rejectUnauthorized: false };
+	return caFile
+		? { rejectUnauthorized: true, ca: readFileSync(caFile, "utf8") }
+		: { rejectUnauthorized: true };
 }
 
 export function createDb(connectionString, ssl) {
-  const pool = new pg.Pool({ connectionString, ssl, max: 4 });
+	const pool = new pg.Pool({ connectionString, ssl, max: 4 });
 
-  async function campers(campName) {
-    const result = await pool.query(CAMPERS_SQL, [campName]);
-    return {
-      columns: result.fields.map((field) => field.name),
-      rows: result.rows,
-    };
-  }
+	async function campers(campName) {
+		const result = await pool.query(CAMPERS_SQL, [campName]);
+		return {
+			columns: result.fields.map((field) => field.name),
+			rows: result.rows,
+		};
+	}
 
-  return { campers, end: () => pool.end() };
+	return { campers, end: () => pool.end() };
 }
