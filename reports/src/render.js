@@ -115,7 +115,7 @@ function report(camp, { columns, rows }, generatedAt) {
     )
     .join("\n          ");
 
-  return `    <section class="report" id="report-list">
+  return `    <section class="report" id="report-list" data-camp="${escapeHtml(camp.name)}">
       <hgroup>
         <h1>${escapeHtml(camp.humanName)}</h1>
         <p>${escapeHtml(campDates(camp))} · <span id="count" data-total="${rows.length}">${plural(rows.length)}</span> · generated ${escapeHtml(generatedAt)}</p>
@@ -128,6 +128,7 @@ function report(camp, { columns, rows }, generatedAt) {
               ${picker}
           </ul>
         </details>
+        <button type="button" id="csv" class="secondary">Download CSV</button>
         <button type="button" id="print">Print</button>
       </div>
       <div class="table-wrap">

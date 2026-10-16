@@ -84,4 +84,38 @@
   document
     .getElementById("print")
     .addEventListener("click", () => window.print());
+
+  // CSV of the current view, like Print: matching rows in sorted order
+  // (List.js keeps matchingItems in list order), visible columns only.
+  // Built in the browser, so no second server route or authz path.
+  document.getElementById("csv").addEventListener("click", () => {
+    const keys = valueNames.filter(
+      (key) =>
+        !table.tHead.querySelector(`.${key}`).classList.contains("col-hidden"),
+    );
+    const header = keys.map(
+      (key) =>
+        table.tHead.querySelector(`.sort[data-sort="${key}"]`).textContent,
+    );
+    const rows = list.matchingItems.map((item) =>
+      keys.map((key) => item.elm.querySelector(`.${key}`)?.textContent ?? ""),
+    );
+    // BOM so Excel reads UTF-8 names correctly; CRLF per RFC 4180.
+    const csv = `\uFEFF${[header, ...rows].map((r) => r.map(csvCell).join(",")).join("\r\n")}\r\n`;
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${container.dataset.camp}-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    // Revoking synchronously can cancel the download in some browsers.
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  });
+
+  // Free-text fields (notes, allergies) are parent-entered, so neutralise
+  // spreadsheet formula injection: a leading = + - @ tab or CR makes Excel
+  // and Sheets evaluate the cell. Prefixing ' forces it to text.
+  function csvCell(value) {
+    const safe = /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+    return /[",\r\n]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
+  }
 })();

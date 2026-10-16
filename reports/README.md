@@ -25,7 +25,10 @@ browser → router (TLS) → oauth2-proxy (Google login) → reports (Node) → 
   *Columns*. Done in the browser by `public/reports.js` with
   [List.js](https://listjs.com/) (pinned in `package.json`, served from
   `node_modules` at `/admin/static/list.min.js`, no CDN), so it works on
-  whatever columns the query returns. Print reflects the current view.
+  whatever columns the query returns. Print and *Download CSV* both reflect
+  the current view (filtered rows, sort order, visible columns). The CSV is
+  built in the browser, UTF-8 with BOM, and cells starting with `= + - @` are
+  prefixed with `'` to block spreadsheet formula injection.
 - **Printing:** A4 landscape. The menu and buttons are hidden and the header
   row repeats on each page.
 

@@ -120,6 +120,8 @@ describe("render", () => {
     assert.match(html, /src="\/admin\/static\/list\.min\.js"/);
     assert.match(html, /src="\/admin\/static\/reports\.js"/);
     assert.doesNotMatch(html, /onclick=/);
+    assert.match(html, /<button type="button" id="csv"/);
+    assert.match(html, /data-camp="west-bromwich-2026-07-20"/);
   });
 });
 
