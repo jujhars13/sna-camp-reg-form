@@ -11,7 +11,7 @@ const CAMPERS_SQL = `
   SELECT 
   id, firstname, surname, dob,
   round((CURRENT_DATE - dob) / 365.25, 1) AS age, gender,
-  guardianname AS "Guardian Name", guardiannumber AS "Number",
+  guardianname AS "Guardian Name", guardiannumber AS "Number",email,
   allergies, notes,
   addressline1, addressline2, city, postcode
   FROM public.snacamp
